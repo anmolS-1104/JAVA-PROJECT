@@ -1,0 +1,635 @@
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]3/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]3/shelved.patch b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]3/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]3/shelved.patch	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,67 +0,0 @@
+-Index: .idea/modules.xml
+-===================================================================
+-diff --git a/.idea/modules.xml b/.idea/modules.xml
+-deleted file mode 100644
+---- a/.idea/modules.xml	(revision 368eba32c6bdbe900247dfd1a4eb01839cf7b209)
+-+++ /dev/null	(revision 368eba32c6bdbe900247dfd1a4eb01839cf7b209)
+-@@ -1,8 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectModuleManager">
+--    <modules>
+--      <module fileurl="file://$PROJECT_DIR$/Java Project.iml" filepath="$PROJECT_DIR$/Java Project.iml" />
+--    </modules>
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: .idea/misc.xml
+-===================================================================
+-diff --git a/.idea/misc.xml b/.idea/misc.xml
+-deleted file mode 100644
+---- a/.idea/misc.xml	(revision 368eba32c6bdbe900247dfd1a4eb01839cf7b209)
+-+++ /dev/null	(revision 368eba32c6bdbe900247dfd1a4eb01839cf7b209)
+-@@ -1,6 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
+--    <output url="file://$PROJECT_DIR$/out" />
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: Java Project.iml
+-===================================================================
+-diff --git a/Java Project.iml b/Java Project.iml
+-deleted file mode 100644
+---- a/Java Project.iml	(revision 368eba32c6bdbe900247dfd1a4eb01839cf7b209)
+-+++ /dev/null	(revision 368eba32c6bdbe900247dfd1a4eb01839cf7b209)
+-@@ -1,11 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<module type="JAVA_MODULE" version="4">
+--  <component name="NewModuleRootManager" inherit-compiler-output="true">
+--    <exclude-output />
+--    <content url="file://$MODULE_DIR$">
+--      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+--    </content>
+--    <orderEntry type="inheritedJdk" />
+--    <orderEntry type="sourceFolder" forTests="false" />
+--  </component>
+--</module>
+-\ No newline at end of file
+-Index: .idea/vcs.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"$PROJECT_DIR$\" vcs=\"Git\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+---- a/.idea/vcs.xml	(revision 368eba32c6bdbe900247dfd1a4eb01839cf7b209)
+-+++ b/.idea/vcs.xml	(date 1774367511064)
+-@@ -2,5 +2,6 @@
+- <project version="4">
+-   <component name="VcsDirectoryMappings">
+-     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-+    <mapping directory="$PROJECT_DIR$/ai-frontend" vcs="Git" />
+-   </component>
+- </project>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_2.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_2.xml b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_2.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_2.xml	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_drop_selected_changes_[Changes]2" date="1774367511342" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]2/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before drop selected changes [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_3.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_3.xml b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_3.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_3.xml	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_drop_selected_changes_[Changes]3" date="1774367530310" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]3/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before drop selected changes [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]4/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]4/shelved.patch b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]4/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]4/shelved.patch	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,67 +0,0 @@
+-Index: .idea/modules.xml
+-===================================================================
+-diff --git a/.idea/modules.xml b/.idea/modules.xml
+-deleted file mode 100644
+---- a/.idea/modules.xml	(revision 7eeaed560d3c216f7d11ad007f5f77684cf2f054)
+-+++ /dev/null	(revision 7eeaed560d3c216f7d11ad007f5f77684cf2f054)
+-@@ -1,8 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectModuleManager">
+--    <modules>
+--      <module fileurl="file://$PROJECT_DIR$/Java Project.iml" filepath="$PROJECT_DIR$/Java Project.iml" />
+--    </modules>
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: .idea/misc.xml
+-===================================================================
+-diff --git a/.idea/misc.xml b/.idea/misc.xml
+-deleted file mode 100644
+---- a/.idea/misc.xml	(revision 7eeaed560d3c216f7d11ad007f5f77684cf2f054)
+-+++ /dev/null	(revision 7eeaed560d3c216f7d11ad007f5f77684cf2f054)
+-@@ -1,6 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
+--    <output url="file://$PROJECT_DIR$/out" />
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: Java Project.iml
+-===================================================================
+-diff --git a/Java Project.iml b/Java Project.iml
+-deleted file mode 100644
+---- a/Java Project.iml	(revision 7eeaed560d3c216f7d11ad007f5f77684cf2f054)
+-+++ /dev/null	(revision 7eeaed560d3c216f7d11ad007f5f77684cf2f054)
+-@@ -1,11 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<module type="JAVA_MODULE" version="4">
+--  <component name="NewModuleRootManager" inherit-compiler-output="true">
+--    <exclude-output />
+--    <content url="file://$MODULE_DIR$">
+--      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+--    </content>
+--    <orderEntry type="inheritedJdk" />
+--    <orderEntry type="sourceFolder" forTests="false" />
+--  </component>
+--</module>
+-\ No newline at end of file
+-Index: .idea/vcs.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"$PROJECT_DIR$\" vcs=\"Git\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+---- a/.idea/vcs.xml	(revision 7eeaed560d3c216f7d11ad007f5f77684cf2f054)
+-+++ b/.idea/vcs.xml	(date 1774367529955)
+-@@ -2,5 +2,6 @@
+- <project version="4">
+-   <component name="VcsDirectoryMappings">
+-     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-+    <mapping directory="$PROJECT_DIR$/ai-frontend" vcs="Git" />
+-   </component>
+- </project>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]2/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]2/shelved.patch b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]2/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]2/shelved.patch	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,67 +0,0 @@
+-Index: .idea/modules.xml
+-===================================================================
+-diff --git a/.idea/modules.xml b/.idea/modules.xml
+-deleted file mode 100644
+---- a/.idea/modules.xml	(revision 0d5404866aaba2bf72b8c9c2b75976fbfecf0fd6)
+-+++ /dev/null	(revision 0d5404866aaba2bf72b8c9c2b75976fbfecf0fd6)
+-@@ -1,8 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectModuleManager">
+--    <modules>
+--      <module fileurl="file://$PROJECT_DIR$/Java Project.iml" filepath="$PROJECT_DIR$/Java Project.iml" />
+--    </modules>
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: .idea/misc.xml
+-===================================================================
+-diff --git a/.idea/misc.xml b/.idea/misc.xml
+-deleted file mode 100644
+---- a/.idea/misc.xml	(revision 0d5404866aaba2bf72b8c9c2b75976fbfecf0fd6)
+-+++ /dev/null	(revision 0d5404866aaba2bf72b8c9c2b75976fbfecf0fd6)
+-@@ -1,6 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
+--    <output url="file://$PROJECT_DIR$/out" />
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: Java Project.iml
+-===================================================================
+-diff --git a/Java Project.iml b/Java Project.iml
+-deleted file mode 100644
+---- a/Java Project.iml	(revision 0d5404866aaba2bf72b8c9c2b75976fbfecf0fd6)
+-+++ /dev/null	(revision 0d5404866aaba2bf72b8c9c2b75976fbfecf0fd6)
+-@@ -1,11 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<module type="JAVA_MODULE" version="4">
+--  <component name="NewModuleRootManager" inherit-compiler-output="true">
+--    <exclude-output />
+--    <content url="file://$MODULE_DIR$">
+--      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+--    </content>
+--    <orderEntry type="inheritedJdk" />
+--    <orderEntry type="sourceFolder" forTests="false" />
+--  </component>
+--</module>
+-\ No newline at end of file
+-Index: .idea/vcs.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"$PROJECT_DIR$\" vcs=\"Git\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+---- a/.idea/vcs.xml	(revision 0d5404866aaba2bf72b8c9c2b75976fbfecf0fd6)
+-+++ b/.idea/vcs.xml	(date 1774367493889)
+-@@ -2,5 +2,6 @@
+- <project version="4">
+-   <component name="VcsDirectoryMappings">
+-     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-+    <mapping directory="$PROJECT_DIR$/ai-frontend" vcs="Git" />
+-   </component>
+- </project>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_4.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_4.xml b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_4.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_4.xml	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_drop_selected_changes_[Changes]4" date="1774367539818" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]4/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before drop selected changes [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]/shelved.patch	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,67 +0,0 @@
+-Index: .idea/modules.xml
+-===================================================================
+-diff --git a/.idea/modules.xml b/.idea/modules.xml
+-deleted file mode 100644
+---- a/.idea/modules.xml	(revision cf99a6e6846b0b0caf3625a66f9ea2aa80dd70cf)
+-+++ /dev/null	(revision cf99a6e6846b0b0caf3625a66f9ea2aa80dd70cf)
+-@@ -1,8 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectModuleManager">
+--    <modules>
+--      <module fileurl="file://$PROJECT_DIR$/Java Project.iml" filepath="$PROJECT_DIR$/Java Project.iml" />
+--    </modules>
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: .idea/misc.xml
+-===================================================================
+-diff --git a/.idea/misc.xml b/.idea/misc.xml
+-deleted file mode 100644
+---- a/.idea/misc.xml	(revision cf99a6e6846b0b0caf3625a66f9ea2aa80dd70cf)
+-+++ /dev/null	(revision cf99a6e6846b0b0caf3625a66f9ea2aa80dd70cf)
+-@@ -1,6 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
+--    <output url="file://$PROJECT_DIR$/out" />
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: Java Project.iml
+-===================================================================
+-diff --git a/Java Project.iml b/Java Project.iml
+-deleted file mode 100644
+---- a/Java Project.iml	(revision cf99a6e6846b0b0caf3625a66f9ea2aa80dd70cf)
+-+++ /dev/null	(revision cf99a6e6846b0b0caf3625a66f9ea2aa80dd70cf)
+-@@ -1,11 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<module type="JAVA_MODULE" version="4">
+--  <component name="NewModuleRootManager" inherit-compiler-output="true">
+--    <exclude-output />
+--    <content url="file://$MODULE_DIR$">
+--      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+--    </content>
+--    <orderEntry type="inheritedJdk" />
+--    <orderEntry type="sourceFolder" forTests="false" />
+--  </component>
+--</module>
+-\ No newline at end of file
+-Index: .idea/vcs.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"$PROJECT_DIR$\" vcs=\"Git\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+---- a/.idea/vcs.xml	(revision cf99a6e6846b0b0caf3625a66f9ea2aa80dd70cf)
+-+++ b/.idea/vcs.xml	(date 1774367328994)
+-@@ -2,5 +2,6 @@
+- <project version="4">
+-   <component name="VcsDirectoryMappings">
+-     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-+    <mapping directory="$PROJECT_DIR$/ai-frontend" vcs="Git" />
+-   </component>
+- </project>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_.xml	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_drop_selected_changes_[Changes]" date="1774367473544" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before drop selected changes [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_1.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_1.xml b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_1.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes__Changes_1.xml	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_drop_selected_changes_[Changes]1" date="1774367494325" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]1/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before drop selected changes [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/workspace.xml
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+deleted file mode 100644
+--- a/.idea/workspace.xml	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,197 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="AutoImportSettings">
+-    <option name="autoReloadType" value="SELECTIVE" />
+-  </component>
+-  <component name="ChangeListManager">
+-    <list default="true" id="4a67dd70-9215-413b-89bf-46a1f4ace2ad" name="Changes" comment="For trial basis I added simply a prototype where buttons are visible more work to do on it">
+-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Java Project.iml" beforeDir="false" />
+-    </list>
+-    <option name="SHOW_DIALOG" value="false" />
+-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+-    <option name="LAST_RESOLUTION" value="IGNORE" />
+-  </component>
+-  <component name="FileTemplateManagerImpl">
+-    <option name="RECENT_TEMPLATES">
+-      <list>
+-        <option value="JavaScript File" />
+-      </list>
+-    </option>
+-  </component>
+-  <component name="Git.Settings">
+-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/ai-frontend" />
+-    <option name="ROOT_SYNC" value="SYNC" />
+-  </component>
+-  <component name="GitHubPullRequestSearchHistory">{
+-  &quot;lastFilter&quot;: {
+-    &quot;state&quot;: &quot;OPEN&quot;,
+-    &quot;assignee&quot;: &quot;anmolS-1104&quot;
+-  }
+-}</component>
+-  <component name="GithubPullRequestsUISettings"><![CDATA[{
+-  "selectedUrlAndAccountId": {
+-    "url": "https://github.com/anmolS-1104/JAVA-PROJECT",
+-    "accountId": "0a016bd8-cd38-4c53-9607-093d76be2cac"
+-  }
+-}]]></component>
+-  <component name="McpProjectServerCommands">
+-    <commands />
+-    <urls />
+-  </component>
+-  <component name="ProblemsViewState">
+-    <option name="selectedTabId" value="CurrentFile" />
+-  </component>
+-  <component name="ProjectColorInfo">{
+-  &quot;associatedIndex&quot;: 4
+-}</component>
+-  <component name="ProjectId" id="3AALalTmRFljk5pL2JqwYi2H3tv" />
+-  <component name="ProjectViewState">
+-    <option name="hideEmptyMiddlePackages" value="true" />
+-    <option name="showLibraryContents" value="true" />
+-  </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "Application.HelloWorld.executor": "Run",
+-    "Application.Main.executor": "Run",
+-    "Application.Trial.executor": "Run",
+-    "ModuleVcsDetector.initialDetectionPerformed": "true",
+-    "RunOnceActivity.MCP Project settings loaded": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+-    "RunOnceActivity.git.unshallow": "true",
+-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+-    "git-widget-placeholder": "master",
+-    "junie.onboarding.icon.badge.shown": "true",
+-    "kotlin-language-version-configured": "true",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "onboarding.tips.debug.path": "C:/Users/Dell/IdeaProjects/Java Project/src/Main.java",
+-    "settings.editor.selected.configurable": "ml.llm.AcpAgentsConfigurable",
+-    "to.speed.mode.migration.done": "true",
+-    "vue.rearranger.settings.migration": "true"
+-  }
+-}]]></component>
+-  <component name="RunManager" selected="Application.HelloWorld">
+-    <configuration name="HelloWorld" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="HelloWorld" />
+-      <module name="Java Project" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="Main" />
+-      <module name="Java Project" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration name="Trial" type="Application" factoryName="Application" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="Trial" />
+-      <module name="Java Project" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <recent_temporary>
+-      <list>
+-        <item itemvalue="Application.HelloWorld" />
+-        <item itemvalue="Application.Main" />
+-      </list>
+-    </recent_temporary>
+-  </component>
+-  <component name="SharedIndexes">
+-    <attachedChunks>
+-      <set>
+-        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.31033.145" />
+-      </set>
+-    </attachedChunks>
+-  </component>
+-  <component name="TaskManager">
+-    <task active="true" id="Default" summary="Default task">
+-      <changelist id="4a67dd70-9215-413b-89bf-46a1f4ace2ad" name="Changes" comment="" />
+-      <created>1772030498025</created>
+-      <option name="number" value="Default" />
+-      <option name="presentableId" value="Default" />
+-      <updated>1772030498025</updated>
+-      <workItem from="1772030505620" duration="2321000" />
+-      <workItem from="1772254769831" duration="31000" />
+-      <workItem from="1774278649232" duration="1263000" />
+-      <workItem from="1774280242780" duration="315000" />
+-      <workItem from="1774280599461" duration="595000" />
+-      <workItem from="1774281236838" duration="424000" />
+-      <workItem from="1774281695639" duration="1702000" />
+-      <workItem from="1774364516965" duration="5033000" />
+-    </task>
+-    <task id="LOCAL-00001" summary="For trial basis I added simply a prototype where buttons are visible more work to do on it">
+-      <option name="closed" value="true" />
+-      <created>1774366355676</created>
+-      <option name="number" value="00001" />
+-      <option name="presentableId" value="LOCAL-00001" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1774366355676</updated>
+-    </task>
+-    <task id="LOCAL-00002" summary="For trial basis I added simply a prototype where buttons are visible more work to do on it">
+-      <option name="closed" value="true" />
+-      <created>1774366738819</created>
+-      <option name="number" value="00002" />
+-      <option name="presentableId" value="LOCAL-00002" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1774366738819</updated>
+-    </task>
+-    <task id="LOCAL-00003" summary="For trial basis I added simply a prototype where buttons are visible more work to do on it">
+-      <option name="closed" value="true" />
+-      <created>1774367118574</created>
+-      <option name="number" value="00003" />
+-      <option name="presentableId" value="LOCAL-00003" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1774367118575</updated>
+-    </task>
+-    <task id="LOCAL-00004" summary="For trial basis I added simply a prototype where buttons are visible more work to do on it">
+-      <option name="closed" value="true" />
+-      <created>1774368765210</created>
+-      <option name="number" value="00004" />
+-      <option name="presentableId" value="LOCAL-00004" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1774368765210</updated>
+-    </task>
+-    <option name="localTasksCounter" value="5" />
+-    <servers />
+-  </component>
+-  <component name="TypeScriptGeneratedFilesManager">
+-    <option name="version" value="3" />
+-  </component>
+-  <component name="Vcs.Log.Tabs.Properties">
+-    <option name="TAB_STATES">
+-      <map>
+-        <entry key="MAIN">
+-          <value>
+-            <State>
+-              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+-                <map>
+-                  <entry key="Show.Git.Branches" value="true" />
+-                </map>
+-              </option>
+-            </State>
+-          </value>
+-        </entry>
+-      </map>
+-    </option>
+-  </component>
+-  <component name="VcsManagerConfiguration">
+-    <MESSAGE value="For trial basis I added simply a prototype where buttons are visible more work to do on it" />
+-    <option name="LAST_COMMIT_MESSAGE" value="For trial basis I added simply a prototype where buttons are visible more work to do on it" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]1/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]1/shelved.patch b/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]1/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_drop_selected_changes_[Changes]1/shelved.patch	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
++++ /dev/null	(revision 90bb1df05d480f1dcbf660e290ab097e15c845a6)
+@@ -1,67 +0,0 @@
+-Index: .idea/modules.xml
+-===================================================================
+-diff --git a/.idea/modules.xml b/.idea/modules.xml
+-deleted file mode 100644
+---- a/.idea/modules.xml	(revision f9aacdac905179e8a0f20cf8f3a0836f439f6a5c)
+-+++ /dev/null	(revision f9aacdac905179e8a0f20cf8f3a0836f439f6a5c)
+-@@ -1,8 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectModuleManager">
+--    <modules>
+--      <module fileurl="file://$PROJECT_DIR$/Java Project.iml" filepath="$PROJECT_DIR$/Java Project.iml" />
+--    </modules>
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: .idea/misc.xml
+-===================================================================
+-diff --git a/.idea/misc.xml b/.idea/misc.xml
+-deleted file mode 100644
+---- a/.idea/misc.xml	(revision f9aacdac905179e8a0f20cf8f3a0836f439f6a5c)
+-+++ /dev/null	(revision f9aacdac905179e8a0f20cf8f3a0836f439f6a5c)
+-@@ -1,6 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<project version="4">
+--  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
+--    <output url="file://$PROJECT_DIR$/out" />
+--  </component>
+--</project>
+-\ No newline at end of file
+-Index: Java Project.iml
+-===================================================================
+-diff --git a/Java Project.iml b/Java Project.iml
+-deleted file mode 100644
+---- a/Java Project.iml	(revision f9aacdac905179e8a0f20cf8f3a0836f439f6a5c)
+-+++ /dev/null	(revision f9aacdac905179e8a0f20cf8f3a0836f439f6a5c)
+-@@ -1,11 +0,0 @@
+--<?xml version="1.0" encoding="UTF-8"?>
+--<module type="JAVA_MODULE" version="4">
+--  <component name="NewModuleRootManager" inherit-compiler-output="true">
+--    <exclude-output />
+--    <content url="file://$MODULE_DIR$">
+--      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+--    </content>
+--    <orderEntry type="inheritedJdk" />
+--    <orderEntry type="sourceFolder" forTests="false" />
+--  </component>
+--</module>
+-\ No newline at end of file
+-Index: .idea/vcs.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"$PROJECT_DIR$\" vcs=\"Git\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+---- a/.idea/vcs.xml	(revision f9aacdac905179e8a0f20cf8f3a0836f439f6a5c)
+-+++ b/.idea/vcs.xml	(date 1774367473272)
+-@@ -2,5 +2,6 @@
+- <project version="4">
+-   <component name="VcsDirectoryMappings">
+-     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-+    <mapping directory="$PROJECT_DIR$/ai-frontend" vcs="Git" />
+-   </component>
+- </project>
+-\ No newline at end of file
