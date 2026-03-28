@@ -1,0 +1,6 @@
+payment failed | NORMAL | FinanceDepartment
+delivery not received | NORMAL | LogisticsDepartment
+payment failed | NORMAL | FinanceDepartment
+delivery not received | NORMAL | LogisticsDepartment
+payment failed | NORMAL | FinanceDepartment
+delivery not received | NORMAL | LogisticsDepartment
