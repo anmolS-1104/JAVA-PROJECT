@@ -1,0 +1,14 @@
+Backend work completed:
+
+Created project structure (controller, service, dao, model, util).
+Implemented DBConnection to connect Java with MySQL using JDBC.
+Created model classes for Complaint and Departments.
+Implemented DAO layer to save and fetch complaints.
+Built service layer for business logic (classification and resolution).
+Developed ClassificationEngine to assign complaints to departments.
+Added ResolutionManager to generate resolution messages.
+Implemented FileLogger to store complaint logs.
+Created Controller to handle complaint operations.
+Ran the system through Main.java and verified the output.
+
+Result: Backend complaint management system is working
