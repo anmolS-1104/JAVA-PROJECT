@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ComplaintController {
 
-    @GetMapping("/dashboard")
+    @GetMapping("/")
     public String showDashboard(Model model) {
         model.addAttribute("title", "Intelligent Complaint System");
         return "index"; // This looks for dashboard.html in templates
