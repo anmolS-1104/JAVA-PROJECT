@@ -10,6 +10,6 @@ public class ComplaintController {
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
         model.addAttribute("title", "Intelligent Complaint System");
-        return "dashboard"; // This looks for dashboard.html in templates
+        return "index"; // This looks for dashboard.html in templates
     }
 }
