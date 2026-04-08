@@ -4,14 +4,19 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="497af136-fd82-42b4-9110-e7e04905d6da" name="Changes" comment="Improved the ui little bit">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/dao/UserDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/dao/UserDAOImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/model/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/system.iml" afterDir="false" />
+    <list default="true" id="497af136-fd82-42b4-9110-e7e04905d6da" name="Changes" comment="Added user/agent registration and login with MySQL tables">
+      <change afterPath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/dao/AgentDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/dao/AgentDAOImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/model/Agent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/service/AgentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_revert_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_revert__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BACKEND (FULL)/src.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/dao/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/dao/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/dao/UserDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/model/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BACKEND (FULL)/src/com/icrs/service/UserService.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +32,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="SOFT" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
@@ -39,8 +49,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/anmolS-1104/JAVA-PROJECT&quot;,
-    &quot;accountId&quot;: &quot;0a016bd8-cd38-4c53-9607-093d76be2cac&quot;
+    &quot;url&quot;: &quot;https://github.com/anmolS-1104/JAVA-PROJECT.git&quot;,
+    &quot;accountId&quot;: &quot;e99186ba-aff4-42fb-9b9d-4834130a0e4f&quot;
   }
 }</component>
   <component name="McpProjectServerCommands">
@@ -54,42 +64,45 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="3BU9PjoNnx8sw5vXVTwqSmjwUM5" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ComplaintApplication.executor": "Run",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "JavaScript Debug.dashboard.html.executor": "Run",
-    "JavaScript Debug.index.html.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.ComplaintApplication.executor": "Run",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/SAXENA/IdeaProjects/JAVA-PROJECT",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.build.tools.auto.reload": "ALL",
-    "settings.editor.selected.configurable": "MavenSettings",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ComplaintApplication.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;JavaScript Debug.dashboard.html.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.index.html.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ComplaintApplication.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;backend/user-login&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/SAXENA/IdeaProjects/JAVA-PROJECT&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.build.tools.auto.reload&quot;: &quot;ALL&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Dell\IdeaProjects\Java Project\src\main\Java\com.complaint.system" />
@@ -148,7 +161,8 @@
       <workItem from="1774536564480" duration="3167000" />
       <workItem from="1775034314359" duration="155000" />
       <workItem from="1775093314454" duration="668000" />
-      <workItem from="1775095328912" duration="655000" />
+      <workItem from="1775095328912" duration="1097000" />
+      <workItem from="1775668335661" duration="2550000" />
     </task>
     <task id="LOCAL-00001" summary="Improved the ui little bit">
       <option name="closed" value="true" />
@@ -158,7 +172,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774537916681</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added user/agent registration and login with MySQL tables">
+      <option name="closed" value="true" />
+      <created>1775096362681</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1775096362681</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,6 +199,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Improved the ui little bit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improved the ui little bit" />
+    <MESSAGE value="Added user/agent registration and login with MySQL tables" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added user/agent registration and login with MySQL tables" />
   </component>
 </project>

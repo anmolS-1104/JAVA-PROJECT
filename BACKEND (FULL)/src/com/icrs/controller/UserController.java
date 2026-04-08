@@ -8,24 +8,23 @@ public class UserController {
     private UserService userService = new UserService();
 
     public void register(String fullName, String email,
-                         String password, String phone, String role) {
+                         String password, String phone) {
         User user = new User();
         user.setFullName(fullName);
         user.setEmail(email);
         user.setPassword(password);
         user.setPhone(phone);
-        user.setRole(role);
 
         boolean success = userService.register(user);
         if (success) {
-            System.out.println("Registration successful!");
+            System.out.println("User registered successfully!");
         } else {
-            System.out.println("Registration failed.");
+            System.out.println("User registration failed.");
         }
     }
 
-    public User login(String email, String password, String role) {
-        User user = userService.login(email, password, role);
+    public User login(String email, String password) {
+        User user = userService.login(email, password);
         if (user != null) {
             System.out.println("Login successful! Welcome " + user.getFullName());
         } else {
