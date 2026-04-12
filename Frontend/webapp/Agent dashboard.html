@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICRS - Agent Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <h1>ICRS - Agent Portal</h1>
+    <div class="nav-right">
+        <span id="welcomeText">Welcome</span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+</nav>
+
+<div class="page-wrapper">
+
+    <!-- Stats -->
+    <div class="stat-cards">
+        <div class="stat-card">
+            <div class="stat-number" id="totalCount">-</div>
+            <div class="stat-label">Assigned Complaints</div>
+        </div>
+        <div class="stat-card" style="border-top-color: #f9ab00;">
+            <div class="stat-number" id="pendingCount" style="color: #f9ab00;">-</div>
+            <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-card" style="border-top-color: #1a73e8;">
+            <div class="stat-number" id="inProgressCount">-</div>
+            <div class="stat-label">In Progress</div>
+        </div>
+        <div class="stat-card" style="border-top-color: #188038;">
+            <div class="stat-number" id="resolvedCount" style="color: #188038;">-</div>
+            <div class="stat-label">Resolved</div>
+        </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="card">
+        <h2>Quick Actions</h2>
+        <button class="btn btn-primary" onclick="window.location.href='agent-complaints.html'">
+            View All Assigned Complaints
+        </button>
+    </div>
+
+    <!-- Pending complaints needing attention -->
+    <div class="card">
+        <h2>Complaints Needing Attention</h2>
+        <div id="loadingMsg" class="loading">Loading complaints...</div>
+        <div class="msg-error" id="errorMsg"></div>
+
+        <div class="table-wrapper" id="tableWrapper" style="display:none;">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="complaintsBody"></tbody>
+            </table>
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display:none;">
+            No pending complaints. All caught up!
+        </div>
+    </div>
+
+</div>
+
+<!-- Status Update Modal -->
+<div id="statusModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
+    <div style="background:white; border-radius:8px; padding:28px; width:380px; max-width:90%;">
+        <h3 style="margin-bottom:16px; color:#1a73e8;">Update Complaint Status</h3>
+        <p style="margin-bottom:16px; color:#555; font-size:0.9rem;">Complaint ID: <strong id="modalComplaintId"></strong></p>
+
+        <div class="form-group">
+            <label for="newStatus">New Status</label>
+            <select id="newStatus">
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+            </select>
+        </div>
+
+        <div class="msg-error" id="modalError"></div>
+
+        <div style="display:flex; gap:10px; margin-top:8px;">
+            <button class="btn btn-primary" onclick="confirmStatusUpdate()">Update</button>
+            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script>
+    const session = requireRole("AGENT");
+    if (!session) throw new Error("Redirecting...");
+
+    document.getElementById("welcomeText").textContent = "Welcome, " + session.userName;
+
+    let selectedComplaintId = null;
+
+    async function loadComplaints() {
+        try {
+            const complaints = await apiFetch("/api/complaints/agent/" + session.userId);
+
+            document.getElementById("loadingMsg").style.display = "none";
+
+            const pending = complaints.filter(c => c.status === "Pending").length;
+            const inProgress = complaints.filter(c => c.status === "In Progress").length;
+            const resolved = complaints.filter(c => c.status === "Resolved").length;
+
+            document.getElementById("totalCount").textContent = complaints.length;
+            document.getElementById("pendingCount").textContent = pending;
+            document.getElementById("inProgressCount").textContent = inProgress;
+            document.getElementById("resolvedCount").textContent = resolved;
+
+            // Show only non-resolved on dashboard
+            const active = complaints.filter(c => c.status !== "Resolved").slice(0, 5);
+
+            if (active.length === 0) {
+                document.getElementById("emptyState").style.display = "block";
+                return;
+            }
+
+            const tbody = document.getElementById("complaintsBody");
+            tbody.innerHTML = "";
+
+            active.forEach(c => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${c.id}</td>
+                    <td><strong>${escapeHtml(c.title)}</strong></td>
+                    <td>${escapeHtml(c.department || "N/A")}</td>
+                    <td>${statusBadge(c.status)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="openModal(${c.id})">
+                            Update Status
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            document.getElementById("tableWrapper").style.display = "block";
+
+        } catch (err) {
+            document.getElementById("loadingMsg").style.display = "none";
+            showError("errorMsg", "Failed to load complaints: " + err.message);
+        }
+    }
+
+    function openModal(id) {
+        selectedComplaintId = id;
+        document.getElementById("modalComplaintId").textContent = id;
+        document.getElementById("newStatus").value = "In Progress";
+        hideMessage("modalError");
+        document.getElementById("statusModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("statusModal").style.display = "none";
+        selectedComplaintId = null;
+    }
+
+    async function confirmStatusUpdate() {
+        const newStatus = document.getElementById("newStatus").value;
+        hideMessage("modalError");
+
+        try {
+            await apiFetch("/api/complaints/" + selectedComplaintId + "/status", {
+                method: "PUT",
+                body: JSON.stringify({ status: newStatus })
+            });
+
+            closeModal();
+            loadComplaints();
+        } catch (err) {
+            showError("modalError", "Update failed: " + err.message);
+        }
+    }
+
+    // Close modal if clicking background
+    document.getElementById("statusModal").addEventListener("click", function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    loadComplaints();
+</script>
+
+</body>
+</html>
