@@ -14,7 +14,38 @@ public class ComplaintController {
     @FXML
     private Label statusLabel;
 
-    // 2. This method MUST match the onAction="#handleSubmit" in your FXML
+    @FXML
+    private Label fileNameLabel; // New Label for file path display
+
+    /**
+     * Handles the file attachment logic
+     */
+    @FXML
+    public void handleFileUpload(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Attach Evidence (Image/PDF)");
+
+        // Filter for specific file types
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Files", "*.*"),
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"),
+                new FileChooser.ExtensionFilter("Documents", "*.pdf", "*.docx")
+        );
+
+        // Open the dialog window
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            fileNameLabel.setText("Attached: " + selectedFile.getName());
+            fileNameLabel.setStyle("-fx-text-fill: #2980b9;");
+        } else {
+            fileNameLabel.setText("No file selected");
+        }
+    }
+
+    /**
+     * Handles the AI submission logic
+     */
     @FXML
     public void handleSubmit(ActionEvent event) {
         String userInput = complaintInput.getText();
