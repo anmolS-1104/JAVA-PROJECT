@@ -39,24 +39,7 @@
                         style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold;" />
                 <Label fx:id="statusLabel" text="Ready" />
             </children>
-        </Pane>
+        </VBox>
+    </center>
 
-        <Label layoutX="50.0" layoutY="110.0" text="Describe your complaint:">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Label>
-
-        <TextArea fx:id="complaintInput" layoutX="50.0" layoutY="140.0" prefHeight="200.0" prefWidth="600.0" promptText="Type here..." wrapText="true" />
-
-        <Button fx:id="submitBtn" layoutX="50.0" layoutY="360.0" mnemonicParsing="false"
-                onAction="#handleSubmit" prefHeight="40.0" prefWidth="150.0"
-                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;" text="Submit to AI" />
-
-        <Label fx:id="statusLabel" layoutX="50.0" layoutY="420.0" text="Status: Waiting for input..." textFill="#7f8c8d">
-            <font>
-                <Font name="System Italic" size="14.0" />
-            </font>
-        </Label>
-    </children>
-</AnchorPane>
+</BorderPane>
