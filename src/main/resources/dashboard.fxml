@@ -68,10 +68,17 @@
                         <Label text="Complaint Description"
                                style="-fx-font-weight: bold; -fx-text-fill: #34495e; -fx-font-size: 14;" />
 
-                <HBox spacing="10" alignment="CENTER_LEFT">
-                    <Button onAction="#handleFileUpload" text="📎 Attach Documents" style="-fx-background-color: #95a5a6; -fx-text-fill: white;" />
-                    <Label fx:id="fileNameLabel" text="No file selected" textFill="#7f8c8d" />
-                </HBox>
+                        <TextArea fx:id="complaintInput" prefHeight="220.0"
+                                  promptText="Describe the issue... (e.g., 'Urgent refund required for order #123')" wrapText="true"
+                                  style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dcdde1; -fx-font-size: 14;" />
+
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <children>
+                                <Button onAction="#handleFileUpload" text="📁 Attach Proof (Photo/Doc)"
+                                        style="-fx-background-color: #f1f2f6; -fx-text-fill: #2f3542; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 8 15;" />
+                                <Label fx:id="fileNameLabel" text="No file attached" textFill="#95a5a6" />
+                            </children>
+                        </HBox>
 
                 <Button onAction="#handleSubmit" prefHeight="50" prefWidth="250" text="Submit to AI Agent"
                         style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold;" />
