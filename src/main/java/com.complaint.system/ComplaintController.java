@@ -56,10 +56,14 @@ public class ComplaintController {
             return;
         }
 
-        // 3. Agentic AI Logic (Example)
-        if (userInput.toLowerCase().contains("urgent")) {
-            statusLabel.setText("Status: Priority detected! Saved to Database.");
-            statusLabel.setStyle("-fx-text-fill: #e74c3c;"); // Red for priority
+        // --- Simulated Agentic AI Logic ---
+        // We detect keywords to simulate "Intelligent" routing
+        if (userInput.toLowerCase().contains("urgent") || userInput.toLowerCase().contains("emergency")) {
+            statusLabel.setText("Status: High Priority Detected. Sent to Senior Agent.");
+            statusLabel.setStyle("-fx-text-fill: #c0392b; -fx-font-weight: bold;");
+        } else if (userInput.toLowerCase().contains("payment") || userInput.toLowerCase().contains("refund")) {
+            statusLabel.setText("Status: Financial Query Detected. Routed to Billing.");
+            statusLabel.setStyle("-fx-text-fill: #27ae60;");
         } else {
             statusLabel.setText("Status: Complaint logged successfully.");
             statusLabel.setStyle("-fx-text-fill: #2ecc71;"); // Green for success
