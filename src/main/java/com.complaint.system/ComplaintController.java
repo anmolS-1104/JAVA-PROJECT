@@ -50,9 +50,9 @@ public class ComplaintController {
     public void handleSubmit(ActionEvent event) {
         String userInput = complaintInput.getText();
 
-        if (userInput.isEmpty()) {
-            statusLabel.setText("Status: Error! Please type a complaint.");
-            statusLabel.setStyle("-fx-text-fill: #e67e22;"); // Orange for warning
+        if (userInput == null || userInput.trim().isEmpty()) {
+            statusLabel.setText("Status: Error! Input cannot be empty.");
+            statusLabel.setStyle("-fx-text-fill: #e67e22;");
             return;
         }
 
