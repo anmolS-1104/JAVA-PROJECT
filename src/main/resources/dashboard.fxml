@@ -80,9 +80,18 @@
                             </children>
                         </HBox>
 
-                <Button onAction="#handleSubmit" prefHeight="50" prefWidth="250" text="Submit to AI Agent"
-                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold;" />
-                <Label fx:id="statusLabel" text="Ready" />
+                        <Button onAction="#handleSubmit" prefHeight="50" maxWidth="Infinity"
+                                text="START AI ANALYSIS"
+                                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.3), 10, 0, 0, 3);" />
+                    </children>
+                </VBox>
+
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10 0 0 0;">
+                    <children>
+                        <Label fx:id="statusLabel" text="System Status: Ready"
+                               style="-fx-font-size: 14; -fx-text-fill: #34495e; -fx-font-style: italic;" />
+                    </children>
+                </HBox>
             </children>
         </VBox>
     </center>
