@@ -34,11 +34,22 @@
     </top>
 
     <left>
-        <VBox prefWidth="180.0" spacing="10" style="-fx-background-color: #34495e; -fx-padding: 15;">
-            <Button maxWidth="Infinity" text="🏠 Dashboard" style="-fx-background-color: #2980b9; -fx-text-fill: white;" />
-            <Button maxWidth="Infinity" text="📁 My History" style="-fx-background-color: transparent; -fx-text-fill: white;" />
-            <Separator />
-            <Button maxWidth="Infinity" text="⚙ Settings" style="-fx-background-color: transparent; -fx-text-fill: white;" />
+        <VBox prefWidth="220.0" spacing="10" style="-fx-background-color: #1a1c24;">
+            <padding><Insets top="30" right="15" bottom="15" left="15"/></padding>
+            <children>
+                <Label text="AGENTIC ICRS" textFill="#3498db"
+                       style="-fx-font-size: 25; -fx-font-weight: bold; -fx-padding: 0 0 20 0;" />
+                <Button maxWidth="Infinity" text="🏠 Dashboard"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;" />
+                <Button maxWidth="Infinity" text="📊 Analytics"
+                        style="-fx-background-color: transparent; -fx-text-fill: #95a5a6; -fx-cursor: hand;" />
+                <Button maxWidth="Infinity" text="🕒 History"
+                        style="-fx-background-color: transparent; -fx-text-fill: #95a5a6; -fx-cursor: hand;" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Separator opacity="0.2" />
+                <Button maxWidth="Infinity" text="🚪 Logout"
+                        style="-fx-background-color: transparent; -fx-text-fill: #e74c3c; -fx-cursor: hand;" />
+            </children>
         </VBox>
     </left>
 
