@@ -1,8 +1,9 @@
 package com.complaint.system;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.event.ActionEvent;
 
 @Controller
 public class ComplaintController {
