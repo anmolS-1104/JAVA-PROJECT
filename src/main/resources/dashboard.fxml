@@ -27,11 +27,17 @@
     <center>
         <VBox spacing="20" style="-fx-padding: 30; -fx-background-color: #ffffff;">
             <children>
-                <Label layoutY="25.0" text="ICRS - Intelligent Dashboard" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="22.0" />
-                    </font>
-                </Label>
+                <Label text="New Complaint Submission" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                <TextArea fx:id="complaintInput" prefHeight="250.0" promptText="Enter complaint details..." wrapText="true" />
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button onAction="#handleFileUpload" text="📎 Attach Documents" style="-fx-background-color: #95a5a6; -fx-text-fill: white;" />
+                    <Label fx:id="fileNameLabel" text="No file selected" textFill="#7f8c8d" />
+                </HBox>
+
+                <Button onAction="#handleSubmit" prefHeight="50" prefWidth="250" text="Submit to AI Agent"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold;" />
+                <Label fx:id="statusLabel" text="Ready" />
             </children>
         </Pane>
 
