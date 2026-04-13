@@ -1,6 +1,6 @@
 package com.icrs.controller;
 
-import com.icrs.dto.LoginRequest;
+/*import com.icrs.dto.LoginRequest;
 import com.icrs.dto.LoginResponse;
 import com.icrs.model.Agent;
 import com.icrs.model.User;
@@ -50,4 +50,4 @@ public class AuthController {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body("Invalid email or password.");
     }
-}
+}*/

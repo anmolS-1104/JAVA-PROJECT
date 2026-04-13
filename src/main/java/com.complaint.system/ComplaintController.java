@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.event.ActionEvent;
 
-@Controller
 public class ComplaintController {
 
     // 1. These variables MUST match the fx:id in your dashboard.fxml

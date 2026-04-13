@@ -1,45 +1,34 @@
-# ======================
-# IntelliJ / IDE files
-# ======================
-.idea/
-*.iml
-*.iws
+### IntelliJ IDEA ###
 out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.kotlin
 
-# ======================
-# Node / Frontend
-# ======================
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
 
-# ======================
-# Java / Maven / Spring Boot
-# ======================
-target/
-*.class
-*.jar
-*.war
-*.ear
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 
-# ======================
-# Logs & temp files
-# ======================
-*.log
-*.tmp
+### VS Code ###
+.vscode/
 
-# ======================
-# OS files
-# ======================
+### Mac OS ###
 .DS_Store
-Thumbs.db
 
-# ======================
-# Project specific (your repo)
-# ======================
-BACKEND (FULL)/src.zip
-BACKEND (FULL)/complaints_log.txt
-target/
-*.class
+.idea/
+out/
+.ai/
