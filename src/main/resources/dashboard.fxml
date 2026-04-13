@@ -7,12 +7,25 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #f4f4f4;"
-            xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.complaint.system.ComplaintController">
-    <children>
-        <Pane prefHeight="80.0" prefWidth="700.0" style="-fx-background-color: #2c3e50;">
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.complaint.system.ComplaintController">
+
+    <top>
+        <HBox spacing="20" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+            <Text fill="WHITE" text="ICRS | Intelligent Complaint Resolution System" style="-fx-font-weight: bold; -fx-font-size: 18;" />
+        </HBox>
+    </top>
+
+    <left>
+        <VBox prefWidth="180.0" spacing="10" style="-fx-background-color: #34495e; -fx-padding: 15;">
+            <Button maxWidth="Infinity" text="🏠 Dashboard" style="-fx-background-color: #2980b9; -fx-text-fill: white;" />
+            <Button maxWidth="Infinity" text="📁 My History" style="-fx-background-color: transparent; -fx-text-fill: white;" />
+            <Separator />
+            <Button maxWidth="Infinity" text="⚙ Settings" style="-fx-background-color: transparent; -fx-text-fill: white;" />
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="20" style="-fx-padding: 30; -fx-background-color: #ffffff;">
             <children>
                 <Label layoutY="25.0" text="ICRS - Intelligent Dashboard" textFill="WHITE">
                     <font>
