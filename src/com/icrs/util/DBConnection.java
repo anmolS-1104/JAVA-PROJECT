@@ -13,7 +13,7 @@ public class DBConnection {
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/complaints_db",
                 "root",
-                "idk@.890"
+                "ANMOl@2006"
         );
     }
 }
