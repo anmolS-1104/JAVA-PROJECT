@@ -1,11 +1,12 @@
 package com.complaint.system;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import java.awt.Desktop;
-import java.net.URI;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class ComplaintApplication extends Application {
 
 @SpringBootApplication
 public class ComplaintApplication {
