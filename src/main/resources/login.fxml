@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane styleClass="root-pane" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.complaint.system.LoginController">
+
+    <VBox alignment="CENTER" spacing="20.0" maxWidth="400" maxHeight="450" styleClass="card">
+
+        <Label text="ICRS Login" styleClass="title-label" />
+
+        <Label fx:id="errorLabel" textFill="#ff4d4d" visible="false" />
+
+        <TextField fx:id="emailField" promptText="Email Address" maxWidth="320" />
+        <PasswordField fx:id="passwordField" promptText="Password" maxWidth="320" />
+        <ComboBox fx:id="roleComboBox" promptText="Select Role" maxWidth="320" />
+
+        <Button text="Login" onAction="#handleLogin" maxWidth="320" styleClass="action-button" />
+
+        <Hyperlink text="New customer? Click here to Register" onAction="#handleRegisterRedirect" />
+
+    </VBox>
+</StackPane>

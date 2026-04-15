@@ -35,10 +35,12 @@ public class AuthController {
         } else if (request.getRole().equals("AGENT")) {
             Agent agent = agentService.login(request.getEmail(), request.getPassword());
             if (agent != null) {
+                // Agent response now includes the Department the agent works in
                 LoginResponse response = new LoginResponse(
                         agent.getId(),
                         agent.getFullName(),
-                        "AGENT"
+                        "AGENT",
+                        agent.getDepartment()
                 );
                 return ResponseEntity.ok(response);
             }
