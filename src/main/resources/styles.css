@@ -1,0 +1,70 @@
+/* 1. The Full-Screen Background */
+.root-pane {
+    -fx-background-color: linear-gradient(to bottom right, #0b132b, #1c2541);
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* 2. The Floating Card Container */
+.card {
+    -fx-background-color: #2b3a50;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 20, 0, 0, 10);
+    -fx-padding: 40;
+}
+
+/* 3. Typography */
+.title-label {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #5bc0be; /* Cool Teal Accent */
+}
+
+/* 4. Input Fields (Dark Mode) */
+.text-field, .password-field, .combo-box {
+    -fx-background-color: #1c2541;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #a0aab2;
+    -fx-background-radius: 8;
+    -fx-padding: 12;
+    -fx-font-size: 14px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+}
+
+/* Add a glowing border when typing */
+.text-field:focused, .password-field:focused, .combo-box:focused {
+    -fx-border-color: #5bc0be;
+    -fx-border-width: 2;
+    -fx-background-color: #1a233a;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: #1c2541;
+    -fx-text-fill: white;
+}
+
+/* 5. The Main Action Button */
+.action-button {
+    -fx-background-color: #5bc0be;
+    -fx-text-fill: #0b132b;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-background-radius: 8;
+    -fx-padding: 12;
+    -fx-cursor: hand;
+}
+
+.action-button:hover {
+    -fx-background-color: #6fffe9; /* Brighter neon blue on hover */
+}
+
+/* 6. Links */
+.hyperlink {
+    -fx-text-fill: #a0aab2;
+    -fx-border-color: transparent;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #6fffe9;
+    -fx-underline: true;
+}
