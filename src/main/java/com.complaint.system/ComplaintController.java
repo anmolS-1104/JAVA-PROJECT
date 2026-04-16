@@ -77,8 +77,8 @@ public class ComplaintController implements Initializable {
         if (input.toLowerCase().contains("urgent")) {
             statusLabel.setText("✅ Priority Case #ICRS-99 detected. Assigned to Lead Agent.");
             statusLabel.setStyle("-fx-text-fill: #c0392b; -fx-font-weight: bold;");
-        } else if (userInput.toLowerCase().contains("payment") || userInput.toLowerCase().contains("refund")) {
-            statusLabel.setText("Status: Financial Query Detected. Routed to Billing.");
+        } else {
+            statusLabel.setText("✅ Logged successfully. AI has routed this to Support.");
             statusLabel.setStyle("-fx-text-fill: #27ae60;");
         } else {
             statusLabel.setText("Status: Complaint logged successfully.");
