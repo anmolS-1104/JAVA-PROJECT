@@ -19,7 +19,11 @@ public class ComplaintController implements Initializable {
     @FXML private Label movingLabel;
     @FXML private Pane tickerPane;
 
-public class ComplaintController {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // This starts the "Creators" line moving as soon as the app opens
+        startScrollingText();
+    }
 
     // 1. These variables MUST match the fx:id in your dashboard.fxml
     @FXML
