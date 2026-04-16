@@ -45,16 +45,7 @@ public class ComplaintController implements Initializable {
     @FXML
     public void handleFileUpload(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Attach Evidence (Image/PDF)");
-
-        // Filter for specific file types
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("All Files", "*.*"),
-                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"),
-                new FileChooser.ExtensionFilter("Documents", "*.pdf", "*.docx")
-        );
-
-        // Open the dialog window
+        fileChooser.setTitle("Attach Evidence");
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
