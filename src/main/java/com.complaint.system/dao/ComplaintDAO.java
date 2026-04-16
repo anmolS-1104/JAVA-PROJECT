@@ -1,4 +1,4 @@
-package com.icrs.dao;
+package com.complaint.system.dao;
 
 import com.icrs.model.Complaint;
 import java.util.List;

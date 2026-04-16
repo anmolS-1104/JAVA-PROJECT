@@ -1,4 +1,6 @@
-package com.complaint.system;
+package com.complaint.system;// It should now look like this:
+import com.complaint.system.dao.ComplaintDAOImpl;
+
 
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
@@ -24,26 +26,21 @@ public class ComplaintController implements Initializable {
     @FXML private Label movingLabel;
     @FXML private Pane tickerPane;
 
+    private String currentFilePath = "";
+    private ComplaintDAOImpl complaintDAO = new ComplaintDAOImpl();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // This starts the "Creators" line moving as soon as the app opens
         startScrollingText();
     }
 
     private void startScrollingText() {
-        // Start position: Off-screen to the right
         movingLabel.setTranslateX(1000);
-
-        TranslateTransition transition = new TranslateTransition();
-        transition.setNode(movingLabel);
-        transition.setDuration(Duration.seconds(15)); // Adjust speed here (higher = slower)
-
-        // Move from right to left
+        TranslateTransition transition = new TranslateTransition(Duration.seconds(18), movingLabel);
         transition.setFromX(1000);
-        transition.setToX(-1200); // Adjust based on how long your text is
-
+        transition.setToX(-1500);
         transition.setInterpolator(Interpolator.LINEAR);
-        transition.setCycleCount(Animation.INDEFINITE); // Keep looping
+        transition.setCycleCount(Animation.INDEFINITE);
         transition.play();
     }
 
@@ -54,33 +51,31 @@ public class ComplaintController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
-            fileNameLabel.setText("Attached: " + selectedFile.getName());
-            fileNameLabel.setStyle("-fx-text-fill: #2980b9;");
+            currentFilePath = selectedFile.getAbsolutePath();
+            fileNameLabel.setText("✔ Attached: " + selectedFile.getName());
+            fileNameLabel.setStyle("-fx-text-fill: #3498db; -fx-font-weight: bold;");
         } else {
             fileNameLabel.setText("No file selected");
+            currentFilePath = "";
         }
     }
 
-    /**
-     * Handles the AI submission logic
-     */
     @FXML
     public void handleSubmit(ActionEvent event) {
         String input = complaintInput.getText();
 
+        // 1. Validation
         if (input == null || input.trim().isEmpty()) {
             statusLabel.setText("⚠ Please describe the issue first.");
             statusLabel.setStyle("-fx-text-fill: #e67e22;");
             return;
         }
 
-        // --- Agentic AI Simulation ---
-        statusLabel.setText("🤖 AI Agent is categorizing your complaint...");
-        statusLabel.setStyle("-fx-text-fill: #3498db;");
-
-        // Artificial delay simulation logic or keyword detection
+        // 2. Simple AI Categorization
+        String aiStatus = "PENDING";
         if (input.toLowerCase().contains("urgent")) {
-            statusLabel.setText("✅ Priority Case #ICRS-99 detected. Assigned to Lead Agent.");
+            aiStatus = "CRITICAL";
+            statusLabel.setText("🚀 AI Agent: High Priority detected!");
             statusLabel.setStyle("-fx-text-fill: #c0392b; -fx-font-weight: bold;");
         } else {
             statusLabel.setText("🤖 AI Agent: Logging request...");
@@ -99,10 +94,8 @@ public class ComplaintController implements Initializable {
             fileNameLabel.setText("No file attached");
             currentFilePath = "";
         } else {
-            statusLabel.setText("Status: Complaint logged successfully.");
-            statusLabel.setStyle("-fx-text-fill: #2ecc71;"); // Green for success
+            statusLabel.setText("❌ Database Error: Connection failed.");
+            statusLabel.setStyle("-fx-text-fill: #e74c3c;");
         }
-
-        // Future Step: Call your DBConnection.java here to save the 'userInput'
     }
 }

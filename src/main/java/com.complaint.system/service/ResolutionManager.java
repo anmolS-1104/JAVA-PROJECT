@@ -1,4 +1,4 @@
-package com.icrs.service;
+package com.complaint.system.service;
 
 import com.icrs.model.Department;
 
