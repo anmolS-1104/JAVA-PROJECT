@@ -33,8 +33,9 @@ public class ComplaintController implements Initializable {
         transition.setNode(movingLabel);
         transition.setDuration(Duration.seconds(15)); // Adjust speed here (higher = slower)
 
-    @FXML
-    private Label fileNameLabel; // New Label for file path display
+        // Move from right to left
+        transition.setFromX(1000);
+        transition.setToX(-1200); // Adjust based on how long your text is
 
         transition.setInterpolator(Interpolator.LINEAR);
         transition.setCycleCount(Animation.INDEFINITE); // Keep looping
