@@ -3,7 +3,21 @@ package com.complaint.system;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.event.ActionEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.util.Duration;
+
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ComplaintController implements Initializable {
+
+    @FXML private TextArea complaintInput;
+    @FXML private Label statusLabel;
+    @FXML private Label fileNameLabel;
+    @FXML private Label movingLabel;
+    @FXML private Pane tickerPane;
 
 public class ComplaintController {
 
