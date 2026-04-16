@@ -61,7 +61,7 @@ public class ComplaintController implements Initializable {
      */
     @FXML
     public void handleSubmit(ActionEvent event) {
-        String userInput = complaintInput.getText();
+        String input = complaintInput.getText();
 
         if (userInput == null || userInput.trim().isEmpty()) {
             statusLabel.setText("Status: Error! Input cannot be empty.");
