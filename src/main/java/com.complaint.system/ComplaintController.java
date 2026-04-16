@@ -25,9 +25,9 @@ public class ComplaintController implements Initializable {
         startScrollingText();
     }
 
-    // 1. These variables MUST match the fx:id in your dashboard.fxml
-    @FXML
-    private TextArea complaintInput;
+    private void startScrollingText() {
+        // Start position: Off-screen to the right
+        movingLabel.setTranslateX(1000);
 
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(movingLabel);
