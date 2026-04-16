@@ -29,8 +29,9 @@ public class ComplaintController implements Initializable {
     @FXML
     private TextArea complaintInput;
 
-    @FXML
-    private Label statusLabel;
+        TranslateTransition transition = new TranslateTransition();
+        transition.setNode(movingLabel);
+        transition.setDuration(Duration.seconds(15)); // Adjust speed here (higher = slower)
 
     @FXML
     private Label fileNameLabel; // New Label for file path display
