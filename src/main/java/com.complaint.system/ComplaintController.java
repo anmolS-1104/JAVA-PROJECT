@@ -63,8 +63,8 @@ public class ComplaintController implements Initializable {
     public void handleSubmit(ActionEvent event) {
         String input = complaintInput.getText();
 
-        if (userInput == null || userInput.trim().isEmpty()) {
-            statusLabel.setText("Status: Error! Input cannot be empty.");
+        if (input == null || input.trim().isEmpty()) {
+            statusLabel.setText("⚠ Please describe the issue first.");
             statusLabel.setStyle("-fx-text-fill: #e67e22;");
             return;
         }
