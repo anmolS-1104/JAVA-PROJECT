@@ -83,8 +83,21 @@ public class ComplaintController implements Initializable {
             statusLabel.setText("✅ Priority Case #ICRS-99 detected. Assigned to Lead Agent.");
             statusLabel.setStyle("-fx-text-fill: #c0392b; -fx-font-weight: bold;");
         } else {
-            statusLabel.setText("✅ Logged successfully. AI has routed this to Support.");
-            statusLabel.setStyle("-fx-text-fill: #27ae60;");
+            statusLabel.setText("🤖 AI Agent: Logging request...");
+            statusLabel.setStyle("-fx-text-fill: #2980b9;");
+        }
+
+        // 3. Direct Connection to DAO (Pass strings directly)
+        boolean isSaved = complaintDAO.submitComplaint(input, currentFilePath, aiStatus);
+
+        if (isSaved) {
+            statusLabel.setText("✅ Success! Complaint saved to MySQL Database.");
+            statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+
+            // Clear UI after success
+            complaintInput.clear();
+            fileNameLabel.setText("No file attached");
+            currentFilePath = "";
         } else {
             statusLabel.setText("Status: Complaint logged successfully.");
             statusLabel.setStyle("-fx-text-fill: #2ecc71;"); // Green for success
