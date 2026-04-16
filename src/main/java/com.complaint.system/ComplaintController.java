@@ -36,9 +36,11 @@ public class ComplaintController implements Initializable {
     @FXML
     private Label fileNameLabel; // New Label for file path display
 
-    /**
-     * Handles the file attachment logic
-     */
+        transition.setInterpolator(Interpolator.LINEAR);
+        transition.setCycleCount(Animation.INDEFINITE); // Keep looping
+        transition.play();
+    }
+
     @FXML
     public void handleFileUpload(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
