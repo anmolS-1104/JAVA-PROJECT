@@ -69,10 +69,13 @@ public class ComplaintController implements Initializable {
             return;
         }
 
-        // --- Simulated Agentic AI Logic ---
-        // We detect keywords to simulate "Intelligent" routing
-        if (userInput.toLowerCase().contains("urgent") || userInput.toLowerCase().contains("emergency")) {
-            statusLabel.setText("Status: High Priority Detected. Sent to Senior Agent.");
+        // --- Agentic AI Simulation ---
+        statusLabel.setText("🤖 AI Agent is categorizing your complaint...");
+        statusLabel.setStyle("-fx-text-fill: #3498db;");
+
+        // Artificial delay simulation logic or keyword detection
+        if (input.toLowerCase().contains("urgent")) {
+            statusLabel.setText("✅ Priority Case #ICRS-99 detected. Assigned to Lead Agent.");
             statusLabel.setStyle("-fx-text-fill: #c0392b; -fx-font-weight: bold;");
         } else if (userInput.toLowerCase().contains("payment") || userInput.toLowerCase().contains("refund")) {
             statusLabel.setText("Status: Financial Query Detected. Routed to Billing.");
