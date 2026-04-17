@@ -108,7 +108,8 @@
 
     async function loadComplaints() {
         try {
-            const complaints = await apiFetch("/api/complaints/agent/" + session.userId);
+            // CRITICAL FIX: Fetch by department instead of agent ID
+            const complaints = await apiFetch("/api/complaints/department/" + session.userDepartment);
 
             document.getElementById("loadingMsg").style.display = "none";
 
@@ -136,7 +137,7 @@
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${c.id}</td>
-                    <td><strong>${escapeHtml(c.title)}</strong></td>
+                    <td><strong>${escapeHtml(c.title || c.description.substring(0, 30) + '...')}</strong></td>
                     <td>${escapeHtml(c.department || "N/A")}</td>
                     <td>${statusBadge(c.status)}</td>
                     <td>

@@ -123,14 +123,23 @@
         btn.disabled = true;
         btn.textContent = "Creating account...";
 
-        try {
-            const url = new URL(API_BASE + "/api/users/register");
-            url.searchParams.set("name", name);
-            url.searchParams.set("email", email);
-            url.searchParams.set("password", password);
-            url.searchParams.set("phone", phone || "");
+        // Construct the JSON payload to match the backend User model
+        const payload = {
+            fullName: name,
+            email: email,
+            password: password,
+            phone: phone || ""
+        };
 
-            const response = await fetch(url.toString(), { method: "POST" });
+        try {
+            // Updated fetch to send JSON in the request body
+            const response = await fetch(API_BASE + "/api/users/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
 
             if (!response.ok) {
                 const text = await response.text();

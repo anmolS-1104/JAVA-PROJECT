@@ -159,7 +159,7 @@
     </div>
 </div>
 <script>
-    // If already logged in, redirect
+    // If already logged in, redirect back to dashboard
     const existingRole = sessionStorage.getItem("userRole");
     if (existingRole === "CUSTOMER") window.location.href = "customer-dashboard.html";
     if (existingRole === "AGENT") window.location.href = "agent-dashboard.html";
@@ -173,7 +173,7 @@
 
         errorMsg.style.display = "none";
 
-        // Basic validation
+        // Basic validation for email, password and role
         if (!email || !password || !role) {
             errorMsg.textContent = "Please fill in all fields.";
             errorMsg.style.display = "block";
@@ -207,10 +207,12 @@
             sessionStorage.setItem("userName", user.name);
             sessionStorage.setItem("userRole", user.role);
 
-            // Redirect based on role
+            // Redirect based on role and save department if AGENT
             if (user.role === "CUSTOMER") {
                 window.location.href = "customer-dashboard.html";
             } else if (user.role === "AGENT") {
+                // REQUIRED FIX: Save the department to sessionStorage
+                sessionStorage.setItem("userDepartment", user.department);
                 window.location.href = "agent-dashboard.html";
             }
 
