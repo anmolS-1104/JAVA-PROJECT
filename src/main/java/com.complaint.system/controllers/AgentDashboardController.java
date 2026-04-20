@@ -1,8 +1,10 @@
-package com.complaint.system;
+package com.complaint.system.controllers;
 
+import com.complaint.system.util.ApiClient;
+import com.complaint.system.util.Session;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.icrs.dto.ComplaintDTO; // Grabs the DTO from the backend folder
+import com.icrs1.dto.ComplaintDTO; // Grabs the DTO from the backend folder
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

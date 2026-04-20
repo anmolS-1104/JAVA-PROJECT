@@ -1,7 +1,7 @@
-package com.icrs.controller;
+package com.complaint.system.controllers;
 
-import com.icrs.model.Agent;
-import com.icrs.service.AgentService;
+import com.complaint.system.model.Agent;
+import com.complaint.system.service.AgentService;
 
 public class AgentController {
 

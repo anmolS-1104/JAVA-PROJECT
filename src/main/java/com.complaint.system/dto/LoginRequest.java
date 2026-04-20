@@ -1,4 +1,4 @@
-package com.icrs.dto;
+package com.complaint.system.dto;
 
 public class LoginRequest {
     private String email;

@@ -10,19 +10,19 @@ public class ComplaintApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // This looks for the dashboard.fxml we put in src/main/resources
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
+        // 1. Load the Login Screen
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
         Parent root = loader.load();
 
-        primaryStage.setTitle("ICRS - Intelligent Dashboard");
-        primaryStage.setScene(new Scene(root, 700, 500));
+        // 2. Set the Title and Scene (using your 700x650 dark theme size)
+        primaryStage.setTitle("ICRS - Login");
+        primaryStage.setScene(new Scene(root, 700, 650));
 
-        // This makes the window pop up!
+        // 3. Show the window
         primaryStage.show();
     }
 
     public static void main(String[] args) {
-        // This starts the JavaFX lifecycle instead of the Spring Boot one
         launch(args);
     }
 }

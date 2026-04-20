@@ -6,10 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ClientApp extends Application {
+public  class ClientApp extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public  void start(Stage primaryStage) throws Exception {
         // This tells JavaFX to load the login UI design from resources folder
         Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
 

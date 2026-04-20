@@ -1,9 +1,6 @@
 package com.complaint.system.dao;
 
-import com.icrs.model.Complaint;
-import java.util.List;
-
 public interface ComplaintDAO {
-    void save(Complaint c);
-    List<Complaint> getAll();
+    // Make sure this has exactly 4 String parameters
+    boolean submitComplaint(String desc, String path, String priority, String dept);
 }

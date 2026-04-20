@@ -1,7 +1,7 @@
-package com.icrs.dao;
+package com.complaint.system.dao;
 
-import com.icrs.model.Agent;
-import com.icrs.util.DBConnection;
+import com.complaint.system.model.Agent;
+import com.complaint.system.util.DBConnection;
 
 import java.sql.*;
 

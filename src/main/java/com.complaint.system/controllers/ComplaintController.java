@@ -1,7 +1,6 @@
-package com.complaint.system;// It should now look like this:
-import com.complaint.system.dao.ComplaintDAOImpl;
+package com.complaint.system.controllers;
 
-
+import com.complaint.system.service.ComplaintService;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
@@ -10,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
@@ -24,10 +22,11 @@ public class ComplaintController implements Initializable {
     @FXML private Label statusLabel;
     @FXML private Label fileNameLabel;
     @FXML private Label movingLabel;
-    @FXML private Pane tickerPane;
 
     private String currentFilePath = "";
-    private ComplaintDAOImpl complaintDAO = new ComplaintDAOImpl();
+
+    // 🔹 New: Connection to the Service layer
+    private ComplaintService complaintService = new ComplaintService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,13 +46,11 @@ public class ComplaintController implements Initializable {
     @FXML
     public void handleFileUpload(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Attach Evidence");
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
             currentFilePath = selectedFile.getAbsolutePath();
             fileNameLabel.setText("✔ Attached: " + selectedFile.getName());
-            fileNameLabel.setStyle("-fx-text-fill: #3498db; -fx-font-weight: bold;");
         } else {
             fileNameLabel.setText("No file selected");
             currentFilePath = "";
@@ -64,37 +61,28 @@ public class ComplaintController implements Initializable {
     public void handleSubmit(ActionEvent event) {
         String input = complaintInput.getText();
 
-        // 1. Validation
         if (input == null || input.trim().isEmpty()) {
             statusLabel.setText("⚠ Please describe the issue first.");
             statusLabel.setStyle("-fx-text-fill: #e67e22;");
             return;
         }
 
-        // 2. Simple AI Categorization
-        String aiStatus = "PENDING";
-        if (input.toLowerCase().contains("urgent")) {
-            aiStatus = "CRITICAL";
-            statusLabel.setText("🚀 AI Agent: High Priority detected!");
-            statusLabel.setStyle("-fx-text-fill: #c0392b; -fx-font-weight: bold;");
-        } else {
-            statusLabel.setText("🤖 AI Agent: Logging request...");
-            statusLabel.setStyle("-fx-text-fill: #2980b9;");
-        }
+        statusLabel.setText("🤖 AI Agent is processing...");
+        statusLabel.setStyle("-fx-text-fill: #3498db;");
 
-        // 3. Direct Connection to DAO (Pass strings directly)
-        boolean isSaved = complaintDAO.submitComplaint(input, currentFilePath, aiStatus);
+        // 🔹 FIX: Call the Service (which handles Classification -> DBMS)
+        boolean isSaved = complaintService.handleNewComplaint(input, currentFilePath);
 
         if (isSaved) {
-            statusLabel.setText("✅ Success! Complaint saved to MySQL Database.");
+            statusLabel.setText("✅ AI Categorized & Saved to MySQL!");
             statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
 
-            // Clear UI after success
+            // Clear UI
             complaintInput.clear();
             fileNameLabel.setText("No file attached");
             currentFilePath = "";
         } else {
-            statusLabel.setText("❌ Database Error: Connection failed.");
+            statusLabel.setText("❌ Error: Check Database Connection.");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
         }
     }

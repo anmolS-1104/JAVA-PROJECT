@@ -1,7 +1,6 @@
-package com.icrs.dto;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+package com.icrs1.dto;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@com.icrs1.dto.JsonIgnoreProperties(ignoreUnknown = true)
 public class ComplaintDTO {
     private int id;
     private String description;

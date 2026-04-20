@@ -1,8 +1,8 @@
-package com.icrs.service;
+package com.complaint.system.service;
 
-import com.icrs.dao.AgentDAO;
-import com.icrs.dao.AgentDAOImpl;
-import com.icrs.model.Agent;
+import com.complaint.system.dao.AgentDAO;
+import com.complaint.system.dao.AgentDAOImpl;
+import com.complaint.system.model.Agent;
 
 public class AgentService {
 

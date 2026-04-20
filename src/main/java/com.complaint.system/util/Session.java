@@ -1,4 +1,4 @@
-package com.complaint.system;
+package com.complaint.system.util;
 
 public class Session {
     private static int userId;
