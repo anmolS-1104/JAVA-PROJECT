@@ -32,13 +32,3 @@ public class UserController {
             return ResponseEntity.status(401).body("{\"error\":\"Invalid credentials or role mismatch\"}");
         }
     }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
-        boolean success = userService.register(user);
-        if (success) {
-            return ResponseEntity.ok("{\"message\":\"Registration successful\"}");
-        }
-        return ResponseEntity.status(400).body("{\"error\":\"Registration failed in Database\"}");
-    }
-}
