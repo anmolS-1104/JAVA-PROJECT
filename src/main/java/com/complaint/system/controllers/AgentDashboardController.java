@@ -17,6 +17,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javafx.scene.control.ChoiceDialog;
+import java.util.Optional;
+
 public class AgentDashboardController {
 
     @FXML private Label welcomeLabel;
@@ -68,15 +71,39 @@ public class AgentDashboardController {
         ComplaintDTO selected = complaintsTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
 
-        try {
-            String payload = "{\"status\": \"In Progress\"}";
-            HttpResponse<String> response = ApiClient.put("/api/complaints/" + selected.getId() + "/status", payload);
+        List<String> choices = List.of("Pending", "In Progress", "Resolved");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(selected.getStatus() != null ? selected.getStatus() : "Pending", choices);
+        dialog.setTitle("Update Status");
+        dialog.setHeaderText("Update status for Complaint ID: " + selected.getId());
+        dialog.setContentText("Select new status:");
 
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            try {
+                String payload = String.format("{\"status\": \"%s\"}", result.get());
+                HttpResponse<String> response = ApiClient.put("/api/complaints/" + selected.getId() + "/status", payload);
+
+                if (response.statusCode() == 200) {
+                    loadComplaints();
+                }
+            } catch (Exception e) {
+                System.err.println("Failed to update status: " + e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    protected void handleDelete() {
+        ComplaintDTO selected = complaintsTable.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        try {
+            HttpResponse<String> response = ApiClient.delete("/api/complaints/" + selected.getId());
             if (response.statusCode() == 200) {
-                loadComplaints(); // Refresh table
+                loadComplaints();
             }
         } catch (Exception e) {
-            System.err.println("Failed to update status: " + e.getMessage());
+            System.err.println("Failed to delete complaint: " + e.getMessage());
         }
     }
 

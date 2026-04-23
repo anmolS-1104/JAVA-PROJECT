@@ -43,10 +43,13 @@ public class HistoryController {
     @FXML
     protected void handleAnalytics() {
         try {
-            com.complaint.system.util.ApiClient.get(
+            java.net.http.HttpResponse<String> response = com.complaint.system.util.ApiClient.get(
                     "/api/complaints/user/" + Session.getUserId() + "/analytics"
             );
-            navigateTo("/analytics.fxml", "ICRS - Analytics");
+            if (response.statusCode() == 200) {
+                Session.setLastAnalyticsJson(response.body());
+            }
+            navigateTo("/analytics.fxml", "ICRS Analytics");
         } catch (Exception e) {
             System.err.println("Error loading analytics: " + e.getMessage());
         }

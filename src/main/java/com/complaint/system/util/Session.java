@@ -20,7 +20,12 @@ public class Session {
     }
 
     public static void clear() {
-        userId = 0; userName = null; userRole = null; userDepartment = null;
+        userId = 0;
+        userName = null;
+        userRole = null;
+        userDepartment = null;
+        lastComplaintList = null;
+        lastAnalyticsJson = null;
     }
 
     // Setters

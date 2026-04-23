@@ -91,4 +91,14 @@ public class ComplaintRestController {
             return ResponseEntity.status(500).body("{\"error\":\"Update failed.\"}");
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable int id) {
+        boolean deleted = complaintService.deleteComplaint(id);
+        if (deleted) {
+            return ResponseEntity.ok("{\"message\":\"Complaint deleted.\"}");
+        } else {
+            return ResponseEntity.status(500).body("{\"error\":\"Delete failed.\"}");
+        }
+    }
 }

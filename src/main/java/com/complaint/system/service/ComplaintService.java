@@ -29,4 +29,8 @@ public class ComplaintService {
     public boolean updateStatus(int id, String status) {
         return dao.updateStatus(id, status);
     }
+
+    public boolean deleteComplaint(int id) {
+        return dao.deleteComplaint(id);
+    }
 }

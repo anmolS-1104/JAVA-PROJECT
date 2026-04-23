@@ -34,4 +34,12 @@ public class ApiClient {
                 .build();
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
+
+    public static HttpResponse<String> delete(String endpoint) throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(API_BASE + endpoint))
+                .DELETE()
+                .build();
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
 }

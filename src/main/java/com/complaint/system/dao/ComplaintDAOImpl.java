@@ -105,4 +105,19 @@ public class ComplaintDAOImpl implements ComplaintDAO {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteComplaint(int id) {
+        String sql = "DELETE FROM complaints WHERE id = ?";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            System.err.println("ComplaintDAOImpl deleteComplaint error: " + e.getMessage());
+            return false;
+        }
+    }
 }

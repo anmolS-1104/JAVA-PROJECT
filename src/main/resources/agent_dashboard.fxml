@@ -42,8 +42,9 @@
                 </columns>
             </TableView>
 
-            <HBox alignment="CENTER_RIGHT">
-                <Button fx:id="updateStatusBtn" onAction="#handleUpdateStatus" text="Mark Selected as 'In Progress'" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14; -fx-padding: 10 20; -fx-background-radius: 8; -fx-cursor: hand;" />
+            <HBox alignment="CENTER_RIGHT" spacing="15">
+                <Button fx:id="updateStatusBtn" onAction="#handleUpdateStatus" text="Update Status" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14; -fx-padding: 10 20; -fx-background-radius: 8; -fx-cursor: hand;" />
+                <Button onAction="#handleDelete" text="Delete Complaint" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14; -fx-padding: 10 20; -fx-background-radius: 8; -fx-cursor: hand;" />
             </HBox>
         </VBox>
     </center>

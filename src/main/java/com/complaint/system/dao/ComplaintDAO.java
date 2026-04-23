@@ -8,4 +8,5 @@ public interface ComplaintDAO {
     List<ComplaintDTO> findByDepartment(String department);
     List<ComplaintDTO> findByUserId(int userId);
     boolean updateStatus(int id, String status);
+    boolean deleteComplaint(int id);
 }
