@@ -71,9 +71,8 @@ public class RegisterController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = (Stage) nameField.getScene().getWindow();
+            stage.getScene().setRoot(root);
             stage.setTitle(title);
-            stage.setScene(new Scene(root, width, height));
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showMessage("Error loading: " + fxmlPath, true);

@@ -99,7 +99,8 @@ public class LoginController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/register.fxml"));
             Stage stage = (Stage) emailField.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
+            stage.setTitle("ICRS - Register");
         } catch (Exception e) {
             showError("Could not load registration page.");
         }
