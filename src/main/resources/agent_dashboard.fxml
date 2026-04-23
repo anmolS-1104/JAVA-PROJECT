@@ -19,7 +19,7 @@
             <Label text="AGENTIC ICRS" textFill="#3498db" style="-fx-font-size: 25; -fx-font-weight: bold; -fx-padding: 0 0 20 0;" />
             <Button maxWidth="Infinity" text="Workspace" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;" />
             <Region VBox.vgrow="ALWAYS" />
-            <Button maxWidth="Infinity" text="Logout" style="-fx-background-color: transparent; -fx-text-fill: #e74c3c; -fx-cursor: hand;" />
+            <Button maxWidth="Infinity" text="Logout" onAction="#handleLogout" style="-fx-background-color: transparent; -fx-text-fill: #e74c3c; -fx-cursor: hand;" />
         </VBox>
     </left>
 

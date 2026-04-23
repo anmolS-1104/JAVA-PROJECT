@@ -12,6 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.http.HttpResponse;
 import java.util.List;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class AgentDashboardController {
 
@@ -73,6 +77,20 @@ public class AgentDashboardController {
             }
         } catch (Exception e) {
             System.err.println("Failed to update status: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    protected void handleLogout() {
+        Session.clear();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root, 700, 650));
+            stage.setTitle("ICRS - Login");
+            stage.show();
+        } catch (Exception e) {
+            System.err.println("Logout error: " + e.getMessage());
         }
     }
 }

@@ -48,6 +48,7 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <Separator opacity="0.2" />
                 <Button maxWidth="Infinity" text="🚪 Logout"
+                        onAction="#handleLogout"
                         style="-fx-background-color: transparent; -fx-text-fill: #e74c3c; -fx-cursor: hand;" />
             </children>
         </VBox>

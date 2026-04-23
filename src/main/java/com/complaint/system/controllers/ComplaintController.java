@@ -11,6 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import com.complaint.system.util.Session;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
@@ -84,6 +89,20 @@ public class ComplaintController implements Initializable {
         } else {
             statusLabel.setText("❌ Error: Check Database Connection.");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+        }
+    }
+
+    @FXML
+    protected void handleLogout() {
+        Session.clear();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
+            Stage stage = (Stage) complaintInput.getScene().getWindow();
+            stage.setScene(new Scene(root, 700, 650));
+            stage.setTitle("ICRS - Login");
+            stage.show();
+        } catch (Exception e) {
+            System.err.println("Logout error: " + e.getMessage());
         }
     }
 }
