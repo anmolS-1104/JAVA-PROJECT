@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #f0f2f5;"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.complaint.system.controllers.AnalyticsController">
+
+    <top>
+        <VBox style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+            <HBox alignment="CENTER" style="-fx-padding: 20 0 10 0;">
+                <Label text="INTELLIGENT COMPLAINT SYSTEM"
+                       style="-fx-font-family: 'Century Gothic'; -fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <left>
+        <VBox prefWidth="220.0" spacing="10" style="-fx-background-color: #1a1c24;">
+            <padding><Insets top="30" right="15" bottom="15" left="15"/></padding>
+            <Label text="AGENTIC ICRS" textFill="#3498db"
+                   style="-fx-font-size: 25; -fx-font-weight: bold; -fx-padding: 0 0 20 0;" />
+            <Button maxWidth="Infinity" text="🏠 Dashboard"
+                    onAction="#handleDashboard"
+                    style="-fx-background-color: transparent; -fx-text-fill: #95a5a6; -fx-cursor: hand;" />
+            <Button maxWidth="Infinity" text="📊 Analytics"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;" />
+            <Button maxWidth="Infinity" text="🕒 History"
+                    onAction="#handleHistory"
+                    style="-fx-background-color: transparent; -fx-text-fill: #95a5a6; -fx-cursor: hand;" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Separator opacity="0.2" />
+            <Button maxWidth="Infinity" text="🚪 Logout"
+                    onAction="#handleLogout"
+                    style="-fx-background-color: transparent; -fx-text-fill: #e74c3c; -fx-cursor: hand;" />
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="20" style="-fx-padding: 30; -fx-background-color: #ffffff;">
+            <VBox spacing="5">
+                <Label text="My Analytics"
+                       style="-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                <Label text="A summary of your submitted complaints."
+                       style="-fx-text-fill: #7f8c8d;" />
+            </VBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <VBox alignment="CENTER" spacing="5" prefWidth="160"
+                      style="-fx-background-color: #eaf4fb; -fx-background-radius: 10; -fx-padding: 20;">
+                    <Label text="Total" style="-fx-text-fill: #7f8c8d; -fx-font-size: 13;" />
+                    <Label fx:id="totalLabel" text="0"
+                           style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #2980b9;" />
+                </VBox>
+                <VBox alignment="CENTER" spacing="5" prefWidth="160"
+                      style="-fx-background-color: #fef9e7; -fx-background-radius: 10; -fx-padding: 20;">
+                    <Label text="Pending" style="-fx-text-fill: #7f8c8d; -fx-font-size: 13;" />
+                    <Label fx:id="pendingLabel" text="0"
+                           style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #f39c12;" />
+                </VBox>
+                <VBox alignment="CENTER" spacing="5" prefWidth="160"
+                      style="-fx-background-color: #eafaf1; -fx-background-radius: 10; -fx-padding: 20;">
+                    <Label text="In Progress" style="-fx-text-fill: #7f8c8d; -fx-font-size: 13;" />
+                    <Label fx:id="inProgressLabel" text="0"
+                           style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #27ae60;" />
+                </VBox>
+                <VBox alignment="CENTER" spacing="5" prefWidth="160"
+                      style="-fx-background-color: #f9ebea; -fx-background-radius: 10; -fx-padding: 20;">
+                    <Label text="Resolved" style="-fx-text-fill: #7f8c8d; -fx-font-size: 13;" />
+                    <Label fx:id="resolvedLabel" text="0"
+                           style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" />
+                </VBox>
+            </HBox>
+
+            <Label text="By Department"
+                   style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-padding: 10 0 0 0;" />
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <VBox alignment="CENTER" spacing="5" prefWidth="160"
+                      style="-fx-background-color: #f4ecf7; -fx-background-radius: 10; -fx-padding: 20;">
+                    <Label text="Finance" style="-fx-text-fill: #7f8c8d; -fx-font-size: 13;" />
+                    <Label fx:id="financeLabel" text="0"
+                           style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #8e44ad;" />
+                </VBox>
+                <VBox alignment="CENTER" spacing="5" prefWidth="160"
+                      style="-fx-background-color: #fdfefe; -fx-background-radius: 10; -fx-padding: 20;
+                             -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                    <Label text="Logistics" style="-fx-text-fill: #7f8c8d; -fx-font-size: 13;" />
+                    <Label fx:id="logisticsLabel" text="0"
+                           style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #16a085;" />
+                </VBox>
+                <VBox alignment="CENTER" spacing="5" prefWidth="160"
+                      style="-fx-background-color: #fef5e7; -fx-background-radius: 10; -fx-padding: 20;">
+                    <Label text="Technical" style="-fx-text-fill: #7f8c8d; -fx-font-size: 13;" />
+                    <Label fx:id="technicalLabel" text="0"
+                           style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #e67e22;" />
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

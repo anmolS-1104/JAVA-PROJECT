@@ -19,12 +19,20 @@ public class ComplaintRestController {
     public ResponseEntity<?> submit(@RequestBody Map<String, String> body) {
         String description = body.get("description");
         String filePath = body.getOrDefault("filePath", "");
+        String userIdStr = body.get("userId");
 
         if (description == null || description.trim().isEmpty()) {
             return ResponseEntity.badRequest().body("{\"error\":\"Description is required.\"}");
         }
 
-        boolean saved = complaintService.handleNewComplaint(description, filePath);
+        int userId = 0;
+        try {
+            userId = Integer.parseInt(userIdStr);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("{\"error\":\"Valid userId is required.\"}");
+        }
+
+        boolean saved = complaintService.handleNewComplaint(description, filePath, userId);
         if (saved) {
             return ResponseEntity.status(201).body("{\"message\":\"Complaint submitted successfully.\"}");
         } else {
@@ -36,6 +44,37 @@ public class ComplaintRestController {
     public ResponseEntity<?> getByDepartment(@PathVariable String dept) {
         List<ComplaintDTO> complaints = complaintService.getComplaintsByDepartment(dept);
         return ResponseEntity.ok(complaints);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getByUserId(@PathVariable int userId) {
+        List<ComplaintDTO> complaints = complaintService.getComplaintsByUserId(userId);
+        return ResponseEntity.ok(complaints);
+    }
+
+    @GetMapping("/user/{userId}/analytics")
+    public ResponseEntity<?> getAnalyticsByUserId(@PathVariable int userId) {
+        List<ComplaintDTO> complaints = complaintService.getComplaintsByUserId(userId);
+
+        int total = complaints.size();
+        long pending = complaints.stream().filter(c -> c.getStatus() == null || c.getStatus().equalsIgnoreCase("pending")).count();
+        long inProgress = complaints.stream().filter(c -> "In Progress".equalsIgnoreCase(c.getStatus())).count();
+        long resolved = complaints.stream().filter(c -> "Resolved".equalsIgnoreCase(c.getStatus())).count();
+        long finance = complaints.stream().filter(c -> "Finance".equalsIgnoreCase(c.getDepartment())).count();
+        long logistics = complaints.stream().filter(c -> "Logistics".equalsIgnoreCase(c.getDepartment())).count();
+        long technical = complaints.stream().filter(c -> "Technical".equalsIgnoreCase(c.getDepartment())).count();
+
+        Map<String, Object> analytics = Map.of(
+                "total", total,
+                "pending", pending,
+                "inProgress", inProgress,
+                "resolved", resolved,
+                "finance", finance,
+                "logistics", logistics,
+                "technical", technical
+        );
+
+        return ResponseEntity.ok(analytics);
     }
 
     @PutMapping("/{id}/status")
