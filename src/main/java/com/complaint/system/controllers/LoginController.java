@@ -4,6 +4,7 @@ import com.complaint.system.util.ApiClient;
 import com.complaint.system.util.Session;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,45 +42,46 @@ public class LoginController {
         }
 
         try {
-            // 1. Prepare JSON payload
-            String payload = String.format("{\"email\":\"%s\", \"password\":\"%s\", \"role\":\"%s\"}",
-                    email, password, role);
+            // Build JSON safely using Jackson instead of raw string interpolation
+            ObjectNode payload = mapper.createObjectNode();
+            payload.put("email", email);
+            payload.put("password", password);
+            payload.put("role", role);
+            String jsonPayload = mapper.writeValueAsString(payload);
 
-            // 2. Call Backend (Make sure Spring Boot is running!)
-            HttpResponse<String> response = ApiClient.post("/login", payload);
+            // Fixed endpoint: was /login, now /api/auth/login
+            HttpResponse<String> response = ApiClient.post("/api/auth/login", jsonPayload);
 
             if (response.statusCode() == 200) {
                 JsonNode user = mapper.readTree(response.body());
 
-                // 3. Save user data to Session for use in the Dashboard
                 Session.saveSession(
                         user.get("id").asInt(),
                         user.get("fullName").asText(),
                         user.get("role").asText(),
-                        user.has("department") && !user.get("department").isNull() ? user.get("department").asText() : null
+                        user.has("department") && !user.get("department").isNull()
+                                ? user.get("department").asText() : null
                 );
 
-                System.out.println("✅ Login Success! Opening Dashboard...");
-
-                // 4. THE WINDOW SWITCHING CODE
                 Platform.runLater(() -> {
                     try {
-                        // 🔹 Updated to match your screenshot: "dashboard.fxml"
-                        String fxmlPath = "/dashboard.fxml";
+                        // Fixed routing: agents go to agent_dashboard, customers go to dashboard
+                        String fxmlPath = "AGENT".equalsIgnoreCase(role)
+                                ? "/agent_dashboard.fxml"
+                                : "/dashboard.fxml";
 
                         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
                         Parent root = loader.load();
 
-                        // Get current stage and swap the scene
                         Stage stage = (Stage) emailField.getScene().getWindow();
                         stage.setScene(new Scene(root));
-                        stage.setTitle("ICRS Dashboard - " + role);
+                        stage.setTitle("ICRS - " + role);
                         stage.centerOnScreen();
                         stage.show();
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                        showError("FXML Error: Could not find dashboard.fxml in resources.");
+                        showError("Could not load dashboard.");
                     }
                 });
 
@@ -88,7 +90,7 @@ public class LoginController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Connection error: Is the Backend running?");
+            showError("Connection error: is the backend running?");
         }
     }
 

@@ -5,24 +5,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    // 🔹 Replace 'icrs_db' with your actual database name in MySQL Workbench
+
+    // TODO: replace hardcoded credentials with application.properties values
     private static final String URL = "jdbc:mysql://localhost:3306/complaints_db";
     private static final String USER = "root";
-    private static final String PASS = "ANMOl@2006"; // 🔹 Use your MySQL password (common at SIT is 'root' or '1234')
+    private static final String PASS = "your_password_here";
 
-    public static Connection getConnection() {
+    public static Connection getConnection() throws SQLException {
         try {
-            // Load the MySQL JDBC Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(URL, USER, PASS);
         } catch (ClassNotFoundException e) {
-            System.err.println("❌ MySQL Driver not found. Check your Maven dependencies.");
-            e.printStackTrace();
-            return null;
-        } catch (SQLException e) {
-            System.err.println("❌ Connection failed! Check if MySQL service is running.");
-            e.printStackTrace();
-            return null;
+            throw new SQLException("MySQL Driver not found. Check Maven dependencies.", e);
         }
     }
 }
