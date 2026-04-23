@@ -8,7 +8,7 @@ public class DBConnection {
     // 🔹 Replace 'icrs_db' with your actual database name in MySQL Workbench
     private static final String URL = "jdbc:mysql://localhost:3306/complaints_db";
     private static final String USER = "root";
-    private static final String PASS = "ANMOl@2006"; // 🔹 Use your MySQL password (common at SIT is 'root' or '1234')
+    private static final String PASS = "you_password"; // 🔹 Use your MySQL password (common at SIT is 'root' or '1234')
 
     public static Connection getConnection() {
         try {
