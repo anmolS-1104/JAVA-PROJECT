@@ -32,7 +32,7 @@ public class ComplaintRestController {
             return ResponseEntity.badRequest().body("{\"error\":\"Valid userId is required.\"}");
         }
 
-        boolean saved = complaintService.handleNewComplaint(description, filePath, userId);
+        boolean saved = complaintService.handleNewComplaint(userId, description, filePath);
         if (saved) {
             return ResponseEntity.status(201).body("{\"message\":\"Complaint submitted successfully.\"}");
         } else {

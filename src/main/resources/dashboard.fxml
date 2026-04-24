@@ -75,13 +75,7 @@
                                   promptText="Describe the issue... (e.g., 'Urgent refund required for order #123')" wrapText="true"
                                   style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dcdde1; -fx-font-size: 14;" />
 
-                        <HBox spacing="15" alignment="CENTER_LEFT">
-                            <children>
-                                <Button onAction="#handleFileUpload" text="📁 Attach Proof (Photo/Doc)"
-                                        style="-fx-background-color: #f1f2f6; -fx-text-fill: #2f3542; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 8 15;" />
-                                <Label fx:id="fileNameLabel" text="No file attached" textFill="#95a5a6" />
-                            </children>
-                        </HBox>
+
 
                         <Button onAction="#handleSubmit" prefHeight="50" maxWidth="Infinity"
                                 text="START AI ANALYSIS"
