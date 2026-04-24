@@ -9,15 +9,15 @@ import java.util.List;
 public class ComplaintDAOImpl implements ComplaintDAO {
 
     @Override
-    public boolean submitComplaint(String desc, String path, String priority, String dept) {
-        String sql = "INSERT INTO complaints (description, file_path, priority, department, status) VALUES (?, ?, ?, ?, ?)";
+    public boolean submitComplaint(String desc, String path, String priority, String dept, int userId) {
+        String sql = "INSERT INTO complaints (description, priority, department, status, user_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, desc);
-            ps.setString(2, path);
-            ps.setString(3, priority);
-            ps.setString(4, dept);
-            ps.setString(5, "Pending");
+            ps.setString(2, priority);
+            ps.setString(3, dept);
+            ps.setString(4, "Pending");
+            ps.setInt(5, userId);
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,9 +73,28 @@ public class ComplaintDAOImpl implements ComplaintDAO {
 
     @Override
     public List<ComplaintDTO> findByUserId(int userId) {
-        return filterComplaints(null, null, null, null);
+        List<ComplaintDTO> list = new ArrayList<>();
+        String sql = "SELECT id, description, department, priority, status, notes FROM complaints WHERE user_id = ?";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ComplaintDTO dto = new ComplaintDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setDescription(rs.getString("description"));
+                    dto.setDepartment(rs.getString("department"));
+                    dto.setPriority(rs.getString("priority"));
+                    dto.setStatus(rs.getString("status"));
+                    dto.setNotes(rs.getString("notes"));
+                    list.add(dto);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error fetching by userId: " + e.getMessage());
+        }
+        return list;
     }
-
     @Override
     public List<ComplaintDTO> filterComplaints(String department, String status, String priority, String sortBy) {
         List<ComplaintDTO> list = new ArrayList<>();

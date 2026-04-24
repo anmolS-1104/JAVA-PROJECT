@@ -4,7 +4,7 @@ import com.complaint.system.dto.ComplaintDTO;
 import java.util.List;
 
 public interface ComplaintDAO {
-    boolean submitComplaint(String desc, String path, String priority, String dept);
+    boolean submitComplaint(String desc, String path, String priority, String dept, int userId);
     boolean updateNotes(int id, String notes);
     boolean updateStatus(int id, String status);
     boolean deleteComplaint(int id);

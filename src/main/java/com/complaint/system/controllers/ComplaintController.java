@@ -44,38 +44,78 @@ public class ComplaintController implements Initializable {
     // ❌ Removed: handleFileUpload (Image feature deleted)
 
     @FXML
-    public void handleSubmit(ActionEvent event) {
+    public void handleSubmit() {
         String input = complaintInput.getText().trim();
-
-        // 1. Validation for Persistent Flow
         if (input.isEmpty()) {
-            statusLabel.setText("⚠ Please describe the issue first.");
+            statusLabel.setText("Please describe the issue first.");
             statusLabel.setStyle("-fx-text-fill: #e67e22;");
             return;
         }
-
-        statusLabel.setText("🤖 AI Agent is processing...");
-        statusLabel.setStyle("-fx-text-fill: #3498db;");
-
-        // 2. Persistent Session Check
         int userId = Session.getUserId();
         if (userId == 0) {
-            statusLabel.setText("❌ Error: No active session. Please re-login.");
+            statusLabel.setText("No active session. Please re-login.");
             return;
         }
+        statusLabel.setText("AI Agent is processing...");
+        statusLabel.setStyle("-fx-text-fill: #3498db;");
 
-        // 3. Process Complaint (Image path is now hardcoded as null or empty)
         boolean isSaved = complaintService.handleNewComplaint(userId, input, null);
-
         if (isSaved) {
-            statusLabel.setText("✅ AI Categorized & Saved to MySQL!");
+            statusLabel.setText("AI Categorized & Saved to MySQL!");
             statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
-
-            // 4. UI Reset for Persistent usage (ready for next complaint)
             complaintInput.clear();
         } else {
-            statusLabel.setText("❌ Error: Check Database Connection.");
+            statusLabel.setText("Error: Check Database Connection.");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+        }
+    }
+
+    @FXML
+    protected void handleAnalytics() {
+        try {
+            java.net.http.HttpResponse<String> response = com.complaint.system.util.ApiClient.get(
+                    "/api/complaints/user/" + Session.getUserId() + "/analytics");
+            if (response.statusCode() == 200) {
+                Session.setLastAnalyticsJson(response.body());
+            }
+        } catch (Exception e) {
+            System.err.println("Analytics error: " + e.getMessage());
+        }
+        navigateTo("/analytics.fxml", "ICRS Analytics");
+    }
+
+    @FXML
+    protected void handleHistory() {
+        try {
+            java.net.http.HttpResponse<String> response = com.complaint.system.util.ApiClient.get(
+                    "/api/complaints/user/" + Session.getUserId());
+            if (response.statusCode() == 200) {
+                com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+                Session.setLastComplaintList(mapper.readValue(response.body(),
+                        new com.fasterxml.jackson.core.type.TypeReference<>() {}));
+            }
+        } catch (Exception e) {
+            System.err.println("History error: " + e.getMessage());
+        }
+        navigateTo("/history.fxml", "ICRS History");
+    }
+
+    @FXML
+    protected void handleLogout() {
+        Session.clear();
+        navigateTo("/login.fxml", "ICRS Login");
+    }
+
+    private void navigateTo(String fxmlPath, String title) {
+        try {
+            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(
+                    getClass().getResource(fxmlPath));
+            if (root == null) throw new Exception("FXML not found: " + fxmlPath);
+            javafx.stage.Stage stage = (javafx.stage.Stage) complaintInput.getScene().getWindow();
+            stage.getScene().setRoot(root);
+            stage.setTitle(title);
+        } catch (Exception e) {
+            System.err.println("Navigation error: " + e.getMessage());
         }
     }
 }
