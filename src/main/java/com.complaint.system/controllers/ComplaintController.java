@@ -1,6 +1,7 @@
 package com.complaint.system.controllers;
 
 import com.complaint.system.service.ComplaintService;
+import com.complaint.system.util.Session; // 🔹 Added to track persistent user sessions
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
@@ -9,10 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -20,17 +19,16 @@ public class ComplaintController implements Initializable {
 
     @FXML private TextArea complaintInput;
     @FXML private Label statusLabel;
-    @FXML private Label fileNameLabel;
     @FXML private Label movingLabel;
+    // 🔹 Removed: fileNameLabel
 
-    private String currentFilePath = "";
-
-    // 🔹 New: Connection to the Service layer
-    private ComplaintService complaintService = new ComplaintService();
+    private final ComplaintService complaintService = new ComplaintService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         startScrollingText();
+        // Reset status on load for a fresh persistent flow
+        statusLabel.setText("");
     }
 
     private void startScrollingText() {
@@ -43,46 +41,40 @@ public class ComplaintController implements Initializable {
         transition.play();
     }
 
-    @FXML
-    public void handleFileUpload(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(null);
-
-        if (selectedFile != null) {
-            currentFilePath = selectedFile.getAbsolutePath();
-            fileNameLabel.setText("✔ Attached: " + selectedFile.getName());
-        } else {
-            fileNameLabel.setText("No file selected");
-            currentFilePath = "";
-        }
-    }
+    //  Removed: handleFileUpload (Image feature deleted)
 
     @FXML
     public void handleSubmit(ActionEvent event) {
-        String input = complaintInput.getText();
+        String input = complaintInput.getText().trim();
 
-        if (input == null || input.trim().isEmpty()) {
+        // 1. Validation for Persistent Flow
+        if (input.isEmpty()) {
             statusLabel.setText("⚠ Please describe the issue first.");
             statusLabel.setStyle("-fx-text-fill: #e67e22;");
             return;
         }
 
-        statusLabel.setText("🤖 AI Agent is processing...");
+        statusLabel.setText(" AI Agent is processing...");
         statusLabel.setStyle("-fx-text-fill: #3498db;");
 
-        // 🔹 FIX: Call the Service (which handles Classification -> DBMS)
-        boolean isSaved = complaintService.handleNewComplaint(input, currentFilePath);
+        // 2. Persistent Session Check
+        int userId = Session.getUserId();
+        if (userId == 0) {
+            statusLabel.setText(" Error: No active session. Please re-login.");
+            return;
+        }
+
+        // 3. Process Complaint (Image path is now hardcoded as null or empty)
+        boolean isSaved = complaintService.handleNewComplaint(userId, input, null);
 
         if (isSaved) {
-            statusLabel.setText("✅ AI Categorized & Saved to MySQL!");
+            statusLabel.setText("AI Categorized & Saved to MySQL!");
             statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
 
-            // Clear UI
+            // 4. UI Reset for Persistent usage (ready for next complaint)
             complaintInput.clear();
-            fileNameLabel.setText("No file attached");
-            currentFilePath = "";
         } else {
-            statusLabel.setText("❌ Error: Check Database Connection.");
+            statusLabel.setText(" Error: Check Database Connection.");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
         }
     }
