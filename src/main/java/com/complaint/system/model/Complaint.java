@@ -7,6 +7,10 @@ public class Complaint {
     private String priority;
     private String department;
     private String status;
+    private String notes;
+
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -23,3 +27,4 @@ public class Complaint {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 }
+

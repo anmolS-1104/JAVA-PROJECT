@@ -101,4 +101,26 @@ public class ComplaintRestController {
             return ResponseEntity.status(500).body("{\"error\":\"Delete failed.\"}");
         }
     }
+
+    // ✅ NEW: Update resolution notes
+    @PutMapping("/{id}/notes")
+    public ResponseEntity<?> updateNotes(@PathVariable int id, @RequestBody Map<String, String> body) {
+        String notes = body.get("notes");
+        if (complaintService.updateNotes(id, notes)) {
+            return ResponseEntity.ok("{\"message\":\"Notes updated.\"}");
+        }
+        return ResponseEntity.status(500).body("{\"error\":\"Update failed.\"}");
+    }
+
+    // ✅ NEW: Filter complaints
+    @GetMapping("/filter")
+    public ResponseEntity<?> filterComplaints(
+            @RequestParam(required = false) String department,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String priority,
+            @RequestParam(required = false) String sortBy) {
+
+        List<ComplaintDTO> complaints = complaintService.filterComplaints(department, status, priority, sortBy);
+        return ResponseEntity.ok(complaints);
+    }
 }

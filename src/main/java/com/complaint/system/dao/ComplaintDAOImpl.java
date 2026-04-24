@@ -2,7 +2,6 @@ package com.complaint.system.dao;
 
 import com.complaint.system.dto.ComplaintDTO;
 import com.complaint.system.util.DBConnection;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,98 +9,46 @@ import java.util.List;
 public class ComplaintDAOImpl implements ComplaintDAO {
 
     @Override
-    public boolean submitComplaint(String desc, String path, String priority, String dept, int userId) {
-        String sql = "INSERT INTO complaints (description, attachment_path, priority, department, user_id) VALUES (?, ?, ?, ?, ?)";
-
+    public boolean submitComplaint(String desc, String path, String priority, String dept) {
+        String sql = "INSERT INTO complaints (description, file_path, priority, department, status) VALUES (?, ?, ?, ?, ?)";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setString(1, desc);
             ps.setString(2, path);
             ps.setString(3, priority);
             ps.setString(4, dept);
-            ps.setInt(5, userId);
-
+            ps.setString(5, "Pending");
             return ps.executeUpdate() > 0;
-
         } catch (Exception e) {
-            System.err.println("ComplaintDAOImpl submitComplaint error: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
 
     @Override
-    public List<ComplaintDTO> findByDepartment(String department) {
-        String sql = "SELECT id, description, department, priority, status FROM complaints WHERE department = ?";
-        List<ComplaintDTO> list = new ArrayList<>();
-
+    public boolean updateNotes(int id, String notes) {
+        String sql = "UPDATE complaints SET notes = ? WHERE id = ?";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, department);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    ComplaintDTO dto = new ComplaintDTO();
-                    dto.setId(rs.getInt("id"));
-                    dto.setDescription(rs.getString("description"));
-                    dto.setDepartment(rs.getString("department"));
-                    dto.setPriority(rs.getString("priority"));
-                    dto.setStatus(rs.getString("status"));
-                    list.add(dto);
-                }
-            }
-
+            ps.setString(1, notes);
+            ps.setInt(2, id);
+            return ps.executeUpdate() > 0;
         } catch (Exception e) {
-            System.err.println("ComplaintDAOImpl findByDepartment error: " + e.getMessage());
+            System.err.println("Error updating notes: " + e.getMessage());
+            return false;
         }
-
-        return list;
-    }
-
-    @Override
-    public List<ComplaintDTO> findByUserId(int userId) {
-        String sql = "SELECT id, description, department, priority, status FROM complaints WHERE user_id = ?";
-        List<ComplaintDTO> list = new ArrayList<>();
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, userId);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    ComplaintDTO dto = new ComplaintDTO();
-                    dto.setId(rs.getInt("id"));
-                    dto.setDescription(rs.getString("description"));
-                    dto.setDepartment(rs.getString("department"));
-                    dto.setPriority(rs.getString("priority"));
-                    dto.setStatus(rs.getString("status"));
-                    list.add(dto);
-                }
-            }
-
-        } catch (Exception e) {
-            System.err.println("ComplaintDAOImpl findByUserId error: " + e.getMessage());
-        }
-
-        return list;
     }
 
     @Override
     public boolean updateStatus(int id, String status) {
         String sql = "UPDATE complaints SET status = ? WHERE id = ?";
-
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setString(1, status);
             ps.setInt(2, id);
-
             return ps.executeUpdate() > 0;
-
         } catch (Exception e) {
-            System.err.println("ComplaintDAOImpl updateStatus error: " + e.getMessage());
+            System.err.println("Error updating status: " + e.getMessage());
             return false;
         }
     }
@@ -111,13 +58,56 @@ public class ComplaintDAOImpl implements ComplaintDAO {
         String sql = "DELETE FROM complaints WHERE id = ?";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
-
         } catch (Exception e) {
-            System.err.println("ComplaintDAOImpl deleteComplaint error: " + e.getMessage());
+            System.err.println("Error deleting complaint: " + e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public List<ComplaintDTO> findByDepartment(String department) {
+        return filterComplaints(department, null, null, null);
+    }
+
+    @Override
+    public List<ComplaintDTO> findByUserId(int userId) {
+        return filterComplaints(null, null, null, null);
+    }
+
+    @Override
+    public List<ComplaintDTO> filterComplaints(String department, String status, String priority, String sortBy) {
+        List<ComplaintDTO> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT id, description, department, priority, status, notes FROM complaints WHERE 1=1");
+
+        if (department != null && !department.isEmpty()) sql.append(" AND department = '").append(department).append("'");
+        if (status != null && !status.isEmpty()) sql.append(" AND status = '").append(status).append("'");
+        if (priority != null && !priority.isEmpty()) sql.append(" AND priority = '").append(priority).append("'");
+
+        if ("date".equalsIgnoreCase(sortBy)) {
+            sql.append(" ORDER BY id DESC");
+        } else if ("priority".equalsIgnoreCase(sortBy)) {
+            sql.append(" ORDER BY FIELD(priority, 'HIGH', 'MEDIUM', 'NORMAL')");
+        }
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql.toString());
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                ComplaintDTO dto = new ComplaintDTO();
+                dto.setId(rs.getInt("id"));
+                dto.setDescription(rs.getString("description"));
+                dto.setDepartment(rs.getString("department"));
+                dto.setPriority(rs.getString("priority"));
+                dto.setStatus(rs.getString("status"));
+                dto.setNotes(rs.getString("notes"));
+                list.add(dto);
+            }
+        } catch (Exception e) {
+            System.err.println("Error filtering complaints: " + e.getMessage());
+        }
+        return list;
     }
 }

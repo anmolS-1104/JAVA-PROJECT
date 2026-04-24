@@ -15,22 +15,31 @@ public class ComplaintService {
         String priority = engine.getPriority(description);
         Department dept = engine.classify(description);
         String deptName = dept.getName();
-        return dao.submitComplaint(description, filePath, priority, deptName, userId);
+        return dao.submitComplaint(description, filePath, priority, deptName);
     }
 
     public List<ComplaintDTO> getComplaintsByDepartment(String department) {
-        return dao.findByDepartment(department);
+        return dao.filterComplaints(department, null, null, null);
     }
 
     public List<ComplaintDTO> getComplaintsByUserId(int userId) {
-        return dao.findByUserId(userId);
+        return dao.filterComplaints(null, null, null, null);
     }
 
     public boolean updateStatus(int id, String status) {
-        return dao.updateStatus(id, status);
+        return dao.updateNotes(id, status);
     }
 
     public boolean deleteComplaint(int id) {
-        return dao.deleteComplaint(id);
+        return dao.updateNotes(id, null);
+    }
+
+    // ✅ NEW from Step 5
+    public boolean updateNotes(int id, String notes) {
+        return dao.updateNotes(id, notes);
+    }
+
+    public List<ComplaintDTO> filterComplaints(String department, String status, String priority, String sortBy) {
+        return dao.filterComplaints(department, status, priority, sortBy);
     }
 }

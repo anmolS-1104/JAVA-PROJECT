@@ -10,6 +10,10 @@ public class ComplaintDTO {
     private String department;
     private String status;
     private String priority;
+    private String notes;
+
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
