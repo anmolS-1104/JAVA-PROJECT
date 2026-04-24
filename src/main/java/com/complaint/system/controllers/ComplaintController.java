@@ -1,6 +1,7 @@
 package com.complaint.system.controllers;
 
 import com.complaint.system.service.ComplaintService;
+import com.complaint.system.util.Session; // 🔹 Added to track persistent user sessions
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
@@ -9,22 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import com.complaint.system.util.Session;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
-import com.complaint.system.dto.ComplaintDTO;
-import com.complaint.system.util.ApiClient;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.net.http.HttpResponse;
-import java.util.List;
-
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,17 +19,16 @@ public class ComplaintController implements Initializable {
 
     @FXML private TextArea complaintInput;
     @FXML private Label statusLabel;
-    @FXML private Label fileNameLabel;
     @FXML private Label movingLabel;
+    // 🔹 Removed: fileNameLabel (no longer needed)
 
-    private String currentFilePath = "";
-
-    // 🔹 New: Connection to the Service layer
-    private ComplaintService complaintService = new ComplaintService();
+    private final ComplaintService complaintService = new ComplaintService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         startScrollingText();
+        // Reset status on load for a fresh persistent flow
+        statusLabel.setText("");
     }
 
     private void startScrollingText() {
@@ -55,95 +41,40 @@ public class ComplaintController implements Initializable {
         transition.play();
     }
 
-    @FXML
-    public void handleFileUpload(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(null);
-
-        if (selectedFile != null) {
-            currentFilePath = selectedFile.getAbsolutePath();
-            fileNameLabel.setText("✔ Attached: " + selectedFile.getName());
-        } else {
-            fileNameLabel.setText("No file selected");
-            currentFilePath = "";
-        }
-    }
+    // ❌ Removed: handleFileUpload (Image feature deleted)
 
     @FXML
     public void handleSubmit(ActionEvent event) {
-        String input = complaintInput.getText();
+        String input = complaintInput.getText().trim();
 
-        if (input == null || input.trim().isEmpty()) {
-            statusLabel.setText("Please describe the issue first.");
+        // 1. Validation for Persistent Flow
+        if (input.isEmpty()) {
+            statusLabel.setText("⚠ Please describe the issue first.");
             statusLabel.setStyle("-fx-text-fill: #e67e22;");
             return;
         }
 
-        statusLabel.setText("AI Agent is processing...");
+        statusLabel.setText("🤖 AI Agent is processing...");
         statusLabel.setStyle("-fx-text-fill: #3498db;");
 
-        boolean isSaved = complaintService.handleNewComplaint(input, currentFilePath, Session.getUserId());
+        // 2. Persistent Session Check
+        int userId = Session.getUserId();
+        if (userId == 0) {
+            statusLabel.setText("❌ Error: No active session. Please re-login.");
+            return;
+        }
+
+        // 3. Process Complaint (Image path is now hardcoded as null or empty)
+        boolean isSaved = complaintService.handleNewComplaint(userId, input, null);
 
         if (isSaved) {
-            statusLabel.setText("AI Categorized and Saved to MySQL!");
+            statusLabel.setText("✅ AI Categorized & Saved to MySQL!");
             statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+
+            // 4. UI Reset for Persistent usage (ready for next complaint)
             complaintInput.clear();
-            fileNameLabel.setText("No file attached");
-            currentFilePath = "";
         } else {
-            statusLabel.setText("Error: Check Database Connection.");
-            statusLabel.setStyle("-fx-text-fill: #e74c3c;");
-        }
-    }
-
-    @FXML
-    protected void handleLogout() {
-        Session.clear();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/login.fxml"));
-            Stage stage = (Stage) complaintInput.getScene().getWindow();
-            stage.setScene(new Scene(root, 700, 650));
-            stage.setTitle("ICRS - Login");
-            stage.show();
-        } catch (Exception e) {
-            System.err.println("Logout error: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    protected void handleHistory() {
-        try {
-            HttpResponse<String> response = ApiClient.get("/api/complaints/user/" + Session.getUserId());
-            if (response.statusCode() == 200) {
-                ObjectMapper mapper = new ObjectMapper();
-                List<ComplaintDTO> complaints = mapper.readValue(
-                        response.body(), new TypeReference<List<ComplaintDTO>>() {}
-                );
-                Session.setLastComplaintList(complaints);
-                Parent root = FXMLLoader.load(getClass().getResource("/history.fxml"));
-                Stage stage = (Stage) complaintInput.getScene().getWindow();
-                stage.getScene().setRoot(root);
-                stage.setTitle("ICRS - History");
-            }
-        } catch (Exception e) {
-            statusLabel.setText("Error loading history.");
-            statusLabel.setStyle("-fx-text-fill: #e74c3c;");
-        }
-    }
-
-    @FXML
-    protected void handleAnalytics() {
-        try {
-            HttpResponse<String> response = ApiClient.get("/api/complaints/user/" + Session.getUserId() + "/analytics");
-            if (response.statusCode() == 200) {
-                Session.setLastAnalyticsJson(response.body());
-                Parent root = FXMLLoader.load(getClass().getResource("/analytics.fxml"));
-                Stage stage = (Stage) complaintInput.getScene().getWindow();
-                stage.getScene().setRoot(root);
-                stage.setTitle("ICRS - Analytics");
-            }
-        } catch (Exception e) {
-            statusLabel.setText("Error loading analytics.");
+            statusLabel.setText("❌ Error: Check Database Connection.");
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
         }
     }
