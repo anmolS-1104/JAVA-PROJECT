@@ -5,36 +5,85 @@ import com.complaint.system.model.FinanceDepartment;
 import com.complaint.system.model.LogisticsDepartment;
 import com.complaint.system.model.TechnicalDepartment;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 public class ClassificationEngine {
 
-    // 🔹 Method to classify complaint to department
+    private static final String API_KEY = "your-anthropic-api-key-here";
+    private static final String API_URL = "https://api.anthropic.com/v1/messages";
+
     public Department classify(String complaintText) {
+        try {
+            String prompt = "You are a complaint classification system. Read the following complaint and reply with ONLY one word — either 'Finance', 'Logistics', or 'Technical'. No explanation, just the word.\n\nComplaint: " + complaintText;
 
-        complaintText = complaintText.toLowerCase();
+            String requestBody = """
+                {
+                    "model": "claude-haiku-4-5-20251001",
+                    "max_tokens": 10,
+                    "messages": [{"role": "user", "content": "%s"}]
+                }
+                """.formatted(prompt.replace("\"", "\\\"").replace("\n", "\\n"));
 
-        if (complaintText.contains("payment") || complaintText.contains("refund")) {
-            return new FinanceDepartment();
-        }
-        else if (complaintText.contains("delivery") || complaintText.contains("shipping")) {
-            return new LogisticsDepartment();
-        }
-        else {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL))
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", API_KEY)
+                    .header("anthropic-version", "2023-06-01")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String body = response.body();
+
+            // Extract the text value from the response
+            String result = body.split("\"text\":\"")[1].split("\"")[0].trim();
+
+            if (result.equalsIgnoreCase("Finance")) return new FinanceDepartment();
+            if (result.equalsIgnoreCase("Logistics")) return new LogisticsDepartment();
+            return new TechnicalDepartment();
+
+        } catch (Exception e) {
+            System.err.println("AI classification failed, defaulting to Technical: " + e.getMessage());
             return new TechnicalDepartment();
         }
     }
 
-    // 🔹 Method to assign priority (AI simulation)
     public String getPriority(String complaintText) {
+        try {
+            String prompt = "You are a complaint priority classifier. Read the following complaint and reply with ONLY one word — either 'HIGH', 'MEDIUM', or 'NORMAL'. No explanation, just the word.\n\nComplaint: " + complaintText;
 
-        complaintText = complaintText.toLowerCase();
+            String requestBody = """
+                {
+                    "model": "claude-haiku-4-5-20251001",
+                    "max_tokens": 10,
+                    "messages": [{"role": "user", "content": "%s"}]
+                }
+                """.formatted(prompt.replace("\"", "\\\"").replace("\n", "\\n"));
 
-        if (complaintText.contains("urgent") || complaintText.contains("immediately")) {
-            return "HIGH";
-        }
-        else if (complaintText.contains("delay") || complaintText.contains("late")) {
-            return "MEDIUM";
-        }
-        else {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL))
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", API_KEY)
+                    .header("anthropic-version", "2023-06-01")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String body = response.body();
+
+            String result = body.split("\"text\":\"")[1].split("\"")[0].trim();
+
+            if (result.equalsIgnoreCase("HIGH")) return "HIGH";
+            if (result.equalsIgnoreCase("MEDIUM")) return "MEDIUM";
+            return "NORMAL";
+
+        } catch (Exception e) {
+            System.err.println("AI priority failed, defaulting to NORMAL: " + e.getMessage());
             return "NORMAL";
         }
     }
