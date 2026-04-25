@@ -79,9 +79,9 @@ public class AgentDashboardController {
             String dept     = Session.getUserDepartment();
 
             StringBuilder url = new StringBuilder("/api/complaints/filter?department=" + dept);
-            if (status   != null) url.append("&status=").append(status);
-            if (priority != null) url.append("&priority=").append(priority);
-            if (sortBy   != null) url.append("&sortBy=").append(sortBy);
+            if (status   != null) url.append("&status=").append(java.net.URLEncoder.encode(status, java.nio.charset.StandardCharsets.UTF_8));
+            if (priority != null) url.append("&priority=").append(java.net.URLEncoder.encode(priority, java.nio.charset.StandardCharsets.UTF_8));
+            if (sortBy   != null) url.append("&sortBy=").append(java.net.URLEncoder.encode(sortBy, java.nio.charset.StandardCharsets.UTF_8));
 
             HttpResponse<String> response = ApiClient.get(url.toString());
             if (response.statusCode() == 200) {

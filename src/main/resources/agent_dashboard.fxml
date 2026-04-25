@@ -21,8 +21,9 @@
             <padding><Insets top="30" right="15" bottom="15" left="15"/></padding>
             <Label text="AGENTIC ICRS" textFill="#3498db"
                    style="-fx-font-size: 25; -fx-font-weight: bold; -fx-padding: 0 0 20 0;" />
-            <Button maxWidth="Infinity" text="Workspace"
-                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;" />
+            <!-- REPLACE WITH THIS -->
+            <Label maxWidth="Infinity" text="Workspace" textFill="white"
+                   style="-fx-background-color: #3498db; -fx-padding: 6 12; -fx-background-radius: 4; -fx-font-size: 13; -fx-alignment: center;" />
             <Region VBox.vgrow="ALWAYS" />
             <Button maxWidth="Infinity" text="Logout" onAction="#handleLogout"
                     style="-fx-background-color: transparent; -fx-text-fill: #e74c3c; -fx-cursor: hand;" />

@@ -16,72 +16,75 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ClassificationEngine {
 
     private static final String API_KEY = "your_api_key";
-    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent";
+    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
     public Department classify(String complaintText) {
         try {
             String prompt = "You are a complaint classification system. Read the following complaint and reply with ONLY one word — either 'Finance', 'Logistics', or 'Technical'. No explanation, just the word.\n\nComplaint: " + complaintText;
             String body = callGemini(prompt);
-
             ObjectMapper mapper = new ObjectMapper();
             JsonNode candidates = mapper.readTree(body).path("candidates");
-            if (candidates.isMissingNode() || candidates.isEmpty()) {
-                System.err.println("Gemini classify no candidates: " + body);
-                return new TechnicalDepartment();
+            if (!candidates.isMissingNode() && !candidates.isEmpty()) {
+                String result = candidates.get(0)
+                        .path("content").path("parts").get(0)
+                        .path("text").asText("").trim();
+                if (result.equalsIgnoreCase("Finance"))   return new FinanceDepartment();
+                if (result.equalsIgnoreCase("Logistics")) return new LogisticsDepartment();
+                if (result.equalsIgnoreCase("Technical")) return new TechnicalDepartment();
             }
-            String result = candidates.get(0)
-                    .path("content").path("parts").get(0)
-                    .path("text").asText("Technical").trim();
-
-            if (result.equalsIgnoreCase("Finance")) return new FinanceDepartment();
-            if (result.equalsIgnoreCase("Logistics")) return new LogisticsDepartment();
-            return new TechnicalDepartment();
-
         } catch (Exception e) {
-            System.err.println("AI classification failed, defaulting to Technical: " + e.getMessage());
-            return new TechnicalDepartment();
+            System.err.println("Gemini classify failed, using keyword fallback: " + e.getMessage());
         }
+        return classifyByKeyword(complaintText);
     }
 
     public String getPriority(String complaintText) {
         try {
             String prompt = "You are a complaint priority classifier. Read the following complaint and reply with ONLY one word — either 'HIGH', 'MEDIUM', or 'NORMAL'. No explanation, just the word.\n\nComplaint: " + complaintText;
             String body = callGemini(prompt);
-
             ObjectMapper mapper = new ObjectMapper();
             JsonNode candidates = mapper.readTree(body).path("candidates");
-            if (candidates.isMissingNode() || candidates.isEmpty()) {
-                System.err.println("Gemini priority no candidates: " + body);
-                return "NORMAL";
+            if (!candidates.isMissingNode() && !candidates.isEmpty()) {
+                String result = candidates.get(0)
+                        .path("content").path("parts").get(0)
+                        .path("text").asText("").trim().toUpperCase();
+                if (result.equals("HIGH") || result.equals("MEDIUM") || result.equals("NORMAL")) return result;
             }
-            String result = candidates.get(0)
-                    .path("content").path("parts").get(0)
-                    .path("text").asText("NORMAL").trim();
-
-            if (result.equalsIgnoreCase("HIGH")) return "HIGH";
-            if (result.equalsIgnoreCase("MEDIUM")) return "MEDIUM";
-            return "NORMAL";
-
         } catch (Exception e) {
-            System.err.println("AI priority failed, defaulting to NORMAL: " + e.getMessage());
-            return "NORMAL";
+            System.err.println("Gemini priority failed, using keyword fallback: " + e.getMessage());
         }
+        return priorityByKeyword(complaintText);
+    }
+
+    private Department classifyByKeyword(String text) {
+        String lower = text.toLowerCase();
+        if (lower.matches(".*(payment|refund|charge|transaction|invoice|billing|money|fee|bank|credit|debit).*"))
+            return new FinanceDepartment();
+        if (lower.matches(".*(deliver|package|shipment|courier|dispatch|tracking|arrived|late|order|parcel|logistics).*"))
+            return new LogisticsDepartment();
+        return new TechnicalDepartment();
+    }
+
+    private String priorityByKeyword(String text) {
+        String lower = text.toLowerCase();
+        if (lower.matches(".*(urgent|asap|immediately|demand|critical|emergency|broken|not working|failed).*"))
+            return "HIGH";
+        if (lower.matches(".*(issue|problem|slow|delay|error|trouble|not able|cannot).*"))
+            return "MEDIUM";
+        return "NORMAL";
     }
 
     private String callGemini(String prompt) throws Exception {
         String requestBody = """
-        {
-            "contents": [{
-                "parts": [{"text": "%s"}]
-            }],
-            "generationConfig": {
-                "maxOutputTokens": 50
-            },
-            "thinkingConfig": {
-                "thinkingBudget": 0
-            }
+    {
+        "contents": [{
+            "parts": [{"text": "%s"}]
+        }],
+        "generationConfig": {
+            "maxOutputTokens": 50
         }
-        """.formatted(prompt.replace("\"", "\\\"").replace("\n", "\\n"));
+    }
+    """.formatted(prompt.replace("\"", "\\\"").replace("\n", "\\n"));
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
