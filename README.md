@@ -1,6 +1,6 @@
 # 🗂️ Complaint Management System
 
-A full-stack complaint routing and tracking application built with a **Java Spring Boot** backend and a **React** frontend. Complaints are automatically categorized, assigned a priority level, and routed to the appropriate department.
+A full-stack complaint routing and tracking application built with a **Java Spring Boot** backend and a **JavaFX** frontend. Complaints are automatically categorized, assigned a priority level, and routed to the appropriate department.
 
 ---
 
@@ -34,7 +34,6 @@ This system allows users to submit complaints which are then:
 |---|---|---|
 | Java | 21 | Core language |
 | Spring Boot | 3.2.4 | REST API & application framework |
-| Spring Data JPA | — | Database ORM |
 | MySQL | — | Persistent storage |
 | JavaFX | 21.0.2 | Desktop UI (optional client) |
 | Jackson | — | JSON serialization |
@@ -43,47 +42,82 @@ This system allows users to submit complaints which are then:
 ### Frontend
 | Technology | Version | Purpose |
 |---|---|---|
-| React | 19 | UI framework |
-| React Scripts | 5.0.1 | Build & dev tooling |
-| Node.js / npm | — | Package management |
+| JavaFX | — | Desktop UI (FXML-based screens) |
+| HTML / CSS / JavaScript | — | Web-facing pages |
 
 ---
 
 ## Project Structure
 
 ```
-BACKEND (FULL)/
-└── src/
-    └── com/
-        ├── icrs/
-        │   ├── controller/
-        │   │   ├── ComplaintController.java
-        │   │   └── UserController.java
-        │   ├── dao/
-        │   │   ├── ComplaintDAO.java
-        │   │   ├── ComplaintDAOImpl.java
-        │   │   ├── UserDAO.java
-        │   │   └── UserDAOImpl.java
-        │   ├── model/
-        │   │   ├── Complaint.java
-        │   │   └── User.java
-        │   ├── service/
-        │   │   ├── ComplaintService.java
-        │   │   └── UserService.java
-        │   └── util/
-        │       └── DBConnection.java
-        └── Main.java
+Directory structure:
+└── anmols-1104-java-project/
+    ├── src/
+    │   └── main/
+    │       ├── java/
+    │       │   └── com/
+    │       │       └── complaint/
+    │       │           └── system/
+    │       │               ├── BackendApplication.java
+    │       │               ├── ClientApp.java
+    │       │               ├── Launcher.java
+    │       │               ├── controllers/
+    │       │               │   ├── AgentController.java
+    │       │               │   ├── AgentDashboardController.java
+    │       │               │   ├── AnalyticsController.java
+    │       │               │   ├── AuthController.java
+    │       │               │   ├── ComplaintController.java
+    │       │               │   ├── ComplaintRestController.java
+    │       │               │   ├── HistoryController.java
+    │       │               │   ├── LoginController.java
+    │       │               │   ├── RegisterController.java
+    │       │               │   └── UserController.java
+    │       │               ├── dao/
+    │       │               │   ├── AgentDAO.java
+    │       │               │   ├── AgentDAOImpl.java
+    │       │               │   ├── ComplaintDAO.java
+    │       │               │   ├── ComplaintDAOImpl.java
+    │       │               │   ├── UserDAO.java
+    │       │               │   └── UserDAOImpl.java
+    │       │               ├── dto/
+    │       │               │   ├── ComplaintDTO.java
+    │       │               │   ├── LoginRequest.java
+    │       │               │   └── LoginResponse.java
+    │       │               ├── model/
+    │       │               │   ├── Agent.java
+    │       │               │   ├── Complaint.java
+    │       │               │   ├── Department.java
+    │       │               │   ├── FinanceDepartment.java
+    │       │               │   ├── LogisticsDepartment.java
+    │       │               │   ├── TechnicalDepartment.java
+    │       │               │   └── User.java
+    │       │               ├── service/
+    │       │               │   ├── AgentService.java
+    │       │               │   ├── ClassificationEngine.java
+    │       │               │   ├── ComplaintService.java
+    │       │               │   ├── ResolutionManager.java
+    │       │               │   └── UserService.java
+    │       │               └── util/
+    │       │                   ├── ApiClient.java
+    │       │                   ├── DBConnection.java
+    │       │                   ├── FileLogger.java
+    │       │                   └── Session.java
+    │       └── resources/
+    │           ├── agent_dashboard.fxml
+    │           ├── analytics.fxml
+    │           ├── application.properties
+    │           ├── dashboard.fxml
+    │           ├── history.fxml
+    │           ├── login.fxml
+    │           ├── register.fxml
+    │           └── styles.css
+    └── .ai/
+        └── mcp/
+            └── mcp.json
 
-Frontend/
-└── webapp/
-    └── src/
-        ├── components/
-        ├── App.js
-        └── index.js
 
 complaints_log.txt
 pom.xml
-package.json
 README.md
 ```
 
@@ -95,7 +129,6 @@ README.md
 
 - Java 21 — https://adoptium.net/
 - Maven 3.8+ — https://maven.apache.org/
-- Node.js 18+ & npm — https://nodejs.org/
 - MySQL — running locally
 
 ### Database Setup
@@ -103,31 +136,40 @@ README.md
 Open MySQL and run:
 
 CREATE DATABASE complaints_db;
-
 USE complaints_db;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
-    password VARCHAR(100),
-    phone VARCHAR(20),
-    role VARCHAR(20)
+    full_name VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    phone VARCHAR(50),
+    role VARCHAR(20) DEFAULT 'CUSTOMER'
 );
 
 CREATE TABLE complaints (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    description VARCHAR(255),
-    priority VARCHAR(20),
+    description TEXT,
+    priority VARCHAR(50),
     department VARCHAR(50),
+    status VARCHAR(50),
     user_id INT,
+    notes TEXT,
     FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE agents (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    department VARCHAR(50)
 );
 
 ### Backend Setup
 
 1. Clone the repository:
-git clone https://github.com/anmolS-1104/JAVA-PROJECT.git
+git clone -b rescue-backup https://github.com/anmolS-1104/JAVA-PROJECT.git
 cd JAVA-PROJECT
 
 2. Update DBConnection.java with your MySQL credentials:
@@ -136,16 +178,14 @@ private static final String USER = "root";
 private static final String PASSWORD = "your_password";
 
 3. Compile and run:
-cd "BACKEND (FULL)/src"
-curl -o mysql-connector.jar "https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar"
-javac (Get-ChildItem -Recurse -Filter "*.java" | Select-Object -ExpandProperty FullName)
-java -cp ".;mysql-connector.jar" com.Main
+cd src/main/java
+mvn spring-boot:run
 
 ### Frontend Setup
 
-cd Frontend/webapp
-npm install
-npm start
+cd src/main/java
+Open login.fxml in IntelliJ 
+run Launcher.java
 
 ---
 
@@ -162,14 +202,16 @@ delivery not received | NORMAL | LogisticsDepartment
 ---
 
 ## API Overview
-
 | Method | Endpoint | Description |
 |---|---|---|
 | POST | /api/complaints | Submit a new complaint |
-| GET | /api/complaints | Get all complaints |
-| GET | /api/complaints/{id} | Get a specific complaint |
-| DELETE | /api/complaints/{id} | Delete your own complaint |
-| GET | /api/complaints/department/{dept} | Filter by department |
+| GET | /api/complaints/department/{dept} | Get complaints by department |
+| GET | /api/complaints/user/{userId} | Get complaints by user |
+| GET | /api/complaints/user/{userId}/analytics | Get analytics for a user |
+| GET | /api/complaints/filter | Filter complaints (dept/status/priority/sortBy) |
+| PUT | /api/complaints/{id}/status | Update complaint status |
+| PUT | /api/complaints/{id}/notes | Update resolution notes |
+| DELETE | /api/complaints/{id} | Delete a complaint |
 
 ---
 
