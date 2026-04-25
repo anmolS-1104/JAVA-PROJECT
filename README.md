@@ -51,6 +51,7 @@ This system allows users to submit complaints which are then:
 
 ## Project Structure
 
+```
 BACKEND (FULL)/
 └── src/
     └── com/
@@ -84,6 +85,7 @@ complaints_log.txt
 pom.xml
 package.json
 README.md
+```
 
 ---
 
