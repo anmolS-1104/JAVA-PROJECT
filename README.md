@@ -1,4 +1,4 @@
-# 🗂️ Complaint Management System
+# 🗂️ Intelligent Complaint Resolution System
 
 A full-stack complaint routing and tracking application built with a **Java Spring Boot** backend and a **JavaFX** frontend. Complaints are automatically categorized, assigned a priority level, and routed to the appropriate department.
 
