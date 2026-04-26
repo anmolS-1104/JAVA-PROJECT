@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ClassificationEngine {
 
     private static final String API_KEY = "your_api_key";
-    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent";
 
     public Department classify(String complaintText) {
         try {
@@ -57,6 +57,7 @@ public class ClassificationEngine {
     }
 
     private Department classifyByKeyword(String text) {
+        if (text == null || text.isBlank()) return new TechnicalDepartment();
         String lower = text.toLowerCase();
         if (lower.matches(".*(payment|refund|charge|transaction|invoice|billing|money|fee|bank|credit|debit).*"))
             return new FinanceDepartment();
@@ -66,6 +67,7 @@ public class ClassificationEngine {
     }
 
     private String priorityByKeyword(String text) {
+        if (text == null || text.isBlank()) return "NORMAL";
         String lower = text.toLowerCase();
         if (lower.matches(".*(urgent|asap|immediately|demand|critical|emergency|broken|not working|failed).*"))
             return "HIGH";

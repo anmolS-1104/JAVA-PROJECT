@@ -3,6 +3,7 @@ package com.complaint.system.service;
 import com.complaint.system.dao.ComplaintDAOImpl;
 import com.complaint.system.dto.ComplaintDTO;
 import com.complaint.system.model.Department;
+import com.complaint.system.util.FileLogger;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class ComplaintService {
     public boolean handleNewComplaint(int userId, String description, String filePath) {
         String priority = engine.getPriority(description);
         Department dept = engine.classify(description);
+        FileLogger.log(description + " | " + priority + " | " + dept.getName());
         return dao.submitComplaint(description, filePath, priority, dept.getName(), userId);
     }
 
@@ -35,7 +37,7 @@ public class ComplaintService {
         return dao.deleteComplaint(id);
     }
 
-    // ✅ NEW from Step 5
+
     public boolean updateNotes(int id, String notes) {
         return dao.updateNotes(id, notes);
     }
