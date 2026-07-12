@@ -6,27 +6,25 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    // 1. Reads the URL from Render's environment. If missing, it uses a placeholder.
+    // Pulls from Render environment variables, falls back to local complaints_db
     private static final String URL = System.getenv("SPRING_DATASOURCE_URL") != null
             ? System.getenv("SPRING_DATASOURCE_URL")
-            : "jdbc:mysql://localhost:3306/complaints_db"; // Fallback placeholder
+            : "jdbc:mysql://localhost:3306/complaints_db";
 
-    // 2. Reads the Username from Render's environment.
     private static final String USER = System.getenv("SPRING_DATASOURCE_USERNAME") != null
             ? System.getenv("SPRING_DATASOURCE_USERNAME")
             : "root";
 
-    // 3. Reads the Password from Render's environment.
-    private static final String PASS = System.getenv("SPRING_DATASOURCE_PASSWORD") != null
+    private static final String PASSWORD = System.getenv("SPRING_DATASOURCE_PASSWORD") != null
             ? System.getenv("SPRING_DATASOURCE_PASSWORD")
-            : ""; // Left blank locally so your secret is hidden
+            : "root"; // Change "root" to your local MySQL password if needed
 
     public static Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(URL, USER, PASS);
+            return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (ClassNotFoundException e) {
-            throw new SQLException("MySQL Driver not found. Check Maven dependencies.", e);
+            throw new SQLException("MySQL JDBC Driver not found in classpath.", e);
         }
     }
 }
