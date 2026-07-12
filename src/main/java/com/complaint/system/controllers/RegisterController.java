@@ -40,7 +40,7 @@ public class RegisterController {
         try {
             // 🔹 JSON Payload matching your Backend User Entity
             String payload = String.format(
-                    "{\"fullName\":\"%s\", \"email\":\"%s\", \"password\":\"%s\", \"phone\":\"%s\", \"role\":\"CUSTOMER\"}",
+                    "{\"full_name\":\"%s\", \"email\":\"%s\", \"password\":\"%s\", \"phone\":\"%s\", \"role\":\"CUSTOMER\"}",
                     name, email, password, phone
             );
 
