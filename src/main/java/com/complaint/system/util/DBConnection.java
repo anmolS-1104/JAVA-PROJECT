@@ -19,7 +19,7 @@ public class DBConnection {
     // 3. Reads the Password from Render's environment.
     private static final String PASS = System.getenv("SPRING_DATASOURCE_PASSWORD") != null
             ? System.getenv("SPRING_DATASOURCE_PASSWORD")
-            : ""; // Left blank locally so your secret is hidden
+            : "ANMOl@2006"; // Left blank locally so your secret is hidden
 
     public static Connection getConnection() throws SQLException {
         try {

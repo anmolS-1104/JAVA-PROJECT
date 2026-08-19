@@ -6,7 +6,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class ApiClient {
-    private static final String API_BASE = "https://complaint-system-backend-wd26.onrender.com";
+    // Points directly to the local Spring Boot instance
+    private static final String API_BASE = "http://localhost:8080";
     private static final HttpClient client = HttpClient.newHttpClient();
 
     public static HttpResponse<String> post(String endpoint, String jsonPayload) throws Exception {

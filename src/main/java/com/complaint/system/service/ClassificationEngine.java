@@ -15,22 +15,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ClassificationEngine {
 
-    private static final String API_KEY = "your_api_key";
-    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent";
+    private static final String API_KEY = "AIzaSyDjCK7bqYRExTjISGD4MYEs-9G9umq8sxk";
+
+    // Updated to standard active model tag
+    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + API_KEY;
 
     public Department classify(String complaintText) {
         try {
             String prompt = "You are a complaint classification system. Read the following complaint and reply with ONLY one word — either 'Finance', 'Logistics', or 'Technical'. No explanation, just the word.\n\nComplaint: " + complaintText;
             String body = callGemini(prompt);
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode candidates = mapper.readTree(body).path("candidates");
+            JsonNode root = mapper.readTree(body);
+            JsonNode candidates = root.path("candidates");
             if (!candidates.isMissingNode() && !candidates.isEmpty()) {
                 String result = candidates.get(0)
                         .path("content").path("parts").get(0)
                         .path("text").asText("").trim();
-                if (result.equalsIgnoreCase("Finance"))   return new FinanceDepartment();
-                if (result.equalsIgnoreCase("Logistics")) return new LogisticsDepartment();
-                if (result.equalsIgnoreCase("Technical")) return new TechnicalDepartment();
+
+                if (result.contains("Finance"))   return new FinanceDepartment();
+                if (result.contains("Logistics")) return new LogisticsDepartment();
+                if (result.contains("Technical")) return new TechnicalDepartment();
             }
         } catch (Exception e) {
             System.err.println("Gemini classify failed, using keyword fallback: " + e.getMessage());
@@ -43,12 +47,16 @@ public class ClassificationEngine {
             String prompt = "You are a complaint priority classifier. Read the following complaint and reply with ONLY one word — either 'HIGH', 'MEDIUM', or 'NORMAL'. No explanation, just the word.\n\nComplaint: " + complaintText;
             String body = callGemini(prompt);
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode candidates = mapper.readTree(body).path("candidates");
+            JsonNode root = mapper.readTree(body);
+            JsonNode candidates = root.path("candidates");
             if (!candidates.isMissingNode() && !candidates.isEmpty()) {
                 String result = candidates.get(0)
                         .path("content").path("parts").get(0)
                         .path("text").asText("").trim().toUpperCase();
-                if (result.equals("HIGH") || result.equals("MEDIUM") || result.equals("NORMAL")) return result;
+
+                if (result.contains("HIGH")) return "HIGH";
+                if (result.contains("MEDIUM")) return "MEDIUM";
+                if (result.contains("NORMAL")) return "NORMAL";
             }
         } catch (Exception e) {
             System.err.println("Gemini priority failed, using keyword fallback: " + e.getMessage());
@@ -77,27 +85,26 @@ public class ClassificationEngine {
     }
 
     private String callGemini(String prompt) throws Exception {
+        String escapedPrompt = prompt.replace("\"", "\\\"").replace("\n", "\\n");
         String requestBody = """
-    {
-        "contents": [{
-            "parts": [{"text": "%s"}]
-        }],
-        "generationConfig": {
-            "maxOutputTokens": 50
+        {
+            "contents": [{
+                "parts": [{"text": "%s"}]
+            }],
+            "generationConfig": {
+                "maxOutputTokens": 50
+            }
         }
-    }
-    """.formatted(prompt.replace("\"", "\\\"").replace("\n", "\\n"));
+        """.formatted(escapedPrompt);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL))
                 .header("Content-Type", "application/json")
-                .header("x-goog-api-key", API_KEY)
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
         String body = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-        System.err.println("Gemini raw: " + body);
         return body;
     }
 }
