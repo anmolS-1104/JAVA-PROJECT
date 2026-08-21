@@ -1,13 +1,18 @@
 package com.complaint.system.controllers;
 
 import com.complaint.system.util.ApiClient;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import java.net.http.HttpResponse;
+
 import java.io.IOException;
+import java.net.URL;
+import java.net.http.HttpResponse;
+import java.util.concurrent.CompletableFuture;
 
 public class RegisterController {
 
@@ -36,26 +41,39 @@ public class RegisterController {
             return;
         }
 
-        try {
-            // Includes name, fullName, and full_name to match any backend property binding
-            String payload = String.format(
-                    "{\"name\":\"%s\", \"fullName\":\"%s\", \"full_name\":\"%s\", \"email\":\"%s\", \"password\":\"%s\", \"phone\":\"%s\", \"role\":\"CUSTOMER\"}",
-                    name, name, name, email, password, phone
-            );
+        showMessage("Registering account...", false);
 
-            // Sending to Backend -> MySQL
-            HttpResponse<String> response = ApiClient.post("/api/users/register", payload);
+        // Escape JSON quotes
+        String safeName = name.replace("\"", "\\\"");
+        String safeEmail = email.replace("\"", "\\\"");
+        String safePass = password.replace("\"", "\\\"");
+        String safePhone = phone.replace("\"", "\\\"");
 
+        String payload = String.format(
+                "{\"name\":\"%s\", \"fullName\":\"%s\", \"full_name\":\"%s\", \"email\":\"%s\", \"password\":\"%s\", \"phone\":\"%s\", \"role\":\"CUSTOMER\"}",
+                safeName, safeName, safeName, safeEmail, safePass, safePhone
+        );
+
+        // Asynchronous REST call to prevent freezing JavaFX UI thread
+        CompletableFuture.supplyAsync(() -> {
+            try {
+                return ApiClient.post("/api/users/register", payload);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).thenAccept(response -> Platform.runLater(() -> {
             if (response.statusCode() == 200 || response.statusCode() == 201) {
                 showMessage("Account created! Redirecting to login...", false);
                 handleBackToLogin();
             } else {
                 showMessage("Registration failed: " + response.body(), true);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showMessage("Connection error: Is the backend server running?", true);
-        }
+        })).exceptionally(err -> {
+            Platform.runLater(() -> {
+                showMessage("Connection error: Is backend running?", true);
+            });
+            return null;
+        });
     }
 
     @FXML
@@ -65,20 +83,31 @@ public class RegisterController {
 
     private void navigateTo(String fxmlPath, String title, int width, int height) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            URL resource = getClass().getResource(fxmlPath);
+            if (resource == null) {
+                resource = getClass().getResource("/com/complaint/system" + fxmlPath);
+            }
+            if (resource == null) {
+                showMessage("Error: Resource file not found: " + fxmlPath, true);
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(resource);
             Parent root = loader.load();
+
             Stage stage = (Stage) nameField.getScene().getWindow();
-            stage.getScene().setRoot(root);
+            stage.setScene(new Scene(root, width, height));
             stage.setTitle(title);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showMessage("Error loading: " + fxmlPath, true);
+            showMessage("Error loading screen: " + fxmlPath, true);
         }
     }
 
     private void showMessage(String text, boolean isError) {
         messageLabel.setText(text);
-        messageLabel.setStyle(isError ? "-fx-text-fill: #e74c3c;" : "-fx-text-fill: #2ecc71;");
+        messageLabel.setStyle(isError ? "-fx-text-fill: #e74c3c; -fx-font-weight: bold;" : "-fx-text-fill: #2ecc71; -fx-font-weight: bold;");
         messageLabel.setVisible(true);
     }
 }

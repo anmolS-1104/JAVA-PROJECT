@@ -1,15 +1,22 @@
 package com.complaint.system.controllers;
 
 import com.complaint.system.dto.ComplaintDTO;
+import com.complaint.system.util.DBConnection;
 import com.complaint.system.util.Session;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryController {
@@ -23,16 +30,45 @@ public class HistoryController {
 
     @FXML
     public void initialize() {
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-        deptCol.setCellValueFactory(new PropertyValueFactory<>("department"));
-        priorityCol.setCellValueFactory(new PropertyValueFactory<>("priority"));
-        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+        if (idCol != null) idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        if (descCol != null) descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        if (deptCol != null) deptCol.setCellValueFactory(new PropertyValueFactory<>("department"));
+        if (priorityCol != null) priorityCol.setCellValueFactory(new PropertyValueFactory<>("priority"));
+        if (statusCol != null) statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        List<ComplaintDTO> complaints = Session.getLastComplaintList();
-        if (complaints != null) {
-            historyTable.setItems(FXCollections.observableArrayList(complaints));
-        }
+        loadComplaints();
+    }
+
+    private void loadComplaints() {
+        new Thread(() -> {
+            List<ComplaintDTO> list = new ArrayList<>();
+            String sql = "SELECT id, description, department, priority, status FROM complaints ORDER BY id DESC";
+
+            try (Connection conn = DBConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql);
+                 ResultSet rs = pstmt.executeQuery()) {
+
+                while (rs.next()) {
+                    ComplaintDTO dto = new ComplaintDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setDescription(rs.getString("description"));
+                    dto.setDepartment(rs.getString("department"));
+                    dto.setPriority(rs.getString("priority"));
+                    dto.setStatus(rs.getString("status"));
+                    list.add(dto);
+                }
+            } catch (Exception e) {
+                System.err.println("History DB Fetch Error: " + e.getMessage());
+                list = Session.getLastComplaintList();
+            }
+
+            final List<ComplaintDTO> finalList = list;
+            Platform.runLater(() -> {
+                if (finalList != null && historyTable != null) {
+                    historyTable.setItems(FXCollections.observableArrayList(finalList));
+                }
+            });
+        }).start();
     }
 
     @FXML
@@ -42,17 +78,7 @@ public class HistoryController {
 
     @FXML
     protected void handleAnalytics() {
-        try {
-            java.net.http.HttpResponse<String> response = com.complaint.system.util.ApiClient.get(
-                    "/api/complaints/user/" + Session.getUserId() + "/analytics"
-            );
-            if (response.statusCode() == 200) {
-                Session.setLastAnalyticsJson(response.body());
-            }
-            navigateTo("/analytics.fxml", "ICRS Analytics");
-        } catch (Exception e) {
-            System.err.println("Error loading analytics: " + e.getMessage());
-        }
+        navigateTo("/analytics.fxml", "ICRS Analytics");
     }
 
     @FXML

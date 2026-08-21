@@ -1,125 +1,101 @@
 package com.complaint.system.controllers;
 
 import com.complaint.system.dto.ComplaintDTO;
+import com.complaint.system.model.Complaint;
 import com.complaint.system.service.ComplaintService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/complaints")
 @CrossOrigin(origins = "*")
 public class ComplaintRestController {
 
-    private final ComplaintService complaintService = new ComplaintService();
+    private final ComplaintService complaintService;
+
+    @Autowired
+    public ComplaintRestController(ComplaintService complaintService) {
+        this.complaintService = complaintService;
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Complaint Service is UP and running.");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ComplaintDTO>> getAllComplaints() {
+        List<ComplaintDTO> complaints = complaintService.getAllComplaints();
+        return ResponseEntity.ok(complaints);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getComplaintById(@PathVariable int id) {
+        ComplaintDTO complaint = complaintService.getComplaintById(id);
+        if (complaint != null) {
+            return ResponseEntity.ok(complaint);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Complaint not found with ID: " + id);
+    }
 
     @PostMapping
-    public ResponseEntity<?> submit(@RequestBody Map<String, String> body) {
-        String description = body.get("description");
-        String filePath = body.getOrDefault("filePath", "");
-        String userIdStr = body.get("userId");
-
-        if (description == null || description.trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("{\"error\":\"Description is required.\"}");
+    public ResponseEntity<String> submitComplaint(@RequestBody Complaint complaint) {
+        boolean success = complaintService.handleNewComplaint(complaint);
+        if (success) {
+            return ResponseEntity.status(HttpStatus.CREATED).body("Complaint submitted successfully.");
         }
-
-        int userId = 0;
-        try {
-            userId = Integer.parseInt(userIdStr);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"error\":\"Valid userId is required.\"}");
-        }
-
-        boolean saved = complaintService.handleNewComplaint(userId, description, filePath);
-        if (saved) {
-            return ResponseEntity.status(201).body("{\"message\":\"Complaint submitted successfully.\"}");
-        } else {
-            return ResponseEntity.status(500).body("{\"error\":\"Failed to save complaint.\"}");
-        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to submit complaint.");
     }
 
     @GetMapping("/department/{dept}")
-    public ResponseEntity<?> getByDepartment(@PathVariable String dept) {
+    public ResponseEntity<List<ComplaintDTO>> getByDepartment(@PathVariable String dept) {
         List<ComplaintDTO> complaints = complaintService.getComplaintsByDepartment(dept);
         return ResponseEntity.ok(complaints);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getByUserId(@PathVariable int userId) {
+    public ResponseEntity<List<ComplaintDTO>> getByUserId(@PathVariable int userId) {
         List<ComplaintDTO> complaints = complaintService.getComplaintsByUserId(userId);
         return ResponseEntity.ok(complaints);
     }
 
-    @GetMapping("/user/{userId}/analytics")
-    public ResponseEntity<?> getAnalyticsByUserId(@PathVariable int userId) {
-        List<ComplaintDTO> complaints = complaintService.getComplaintsByUserId(userId);
-
-        int total = complaints.size();
-        long pending = complaints.stream().filter(c -> c.getStatus() == null || c.getStatus().equalsIgnoreCase("pending")).count();
-        long inProgress = complaints.stream().filter(c -> "In Progress".equalsIgnoreCase(c.getStatus())).count();
-        long resolved = complaints.stream().filter(c -> "Resolved".equalsIgnoreCase(c.getStatus())).count();
-        long finance = complaints.stream().filter(c -> "Finance".equalsIgnoreCase(c.getDepartment())).count();
-        long logistics = complaints.stream().filter(c -> "Logistics".equalsIgnoreCase(c.getDepartment())).count();
-        long technical = complaints.stream().filter(c -> "Technical".equalsIgnoreCase(c.getDepartment())).count();
-
-        Map<String, Object> analytics = Map.of(
-                "total", total,
-                "pending", pending,
-                "inProgress", inProgress,
-                "resolved", resolved,
-                "finance", finance,
-                "logistics", logistics,
-                "technical", technical
-        );
-
-        return ResponseEntity.ok(analytics);
-    }
-
     @PutMapping("/{id}/status")
-    public ResponseEntity<?> updateStatus(@PathVariable int id, @RequestBody Map<String, String> body) {
-        String status = body.get("status");
-        if (status == null || status.trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("{\"error\":\"Status is required.\"}");
-        }
-
+    public ResponseEntity<String> updateStatus(@PathVariable int id, @RequestParam String status) {
         boolean updated = complaintService.updateStatus(id, status);
         if (updated) {
-            return ResponseEntity.ok("{\"message\":\"Status updated.\"}");
-        } else {
-            return ResponseEntity.status(500).body("{\"error\":\"Update failed.\"}");
+            return ResponseEntity.ok("Status updated successfully.");
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update status.");
+    }
+
+    @PutMapping("/{id}/notes")
+    public ResponseEntity<String> updateNotes(@PathVariable int id, @RequestParam String notes) {
+        boolean updated = complaintService.updateNotes(id, notes);
+        if (updated) {
+            return ResponseEntity.ok("Notes updated successfully.");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update notes.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id) {
+    public ResponseEntity<String> deleteComplaint(@PathVariable int id) {
         boolean deleted = complaintService.deleteComplaint(id);
         if (deleted) {
-            return ResponseEntity.ok("{\"message\":\"Complaint deleted.\"}");
-        } else {
-            return ResponseEntity.status(500).body("{\"error\":\"Delete failed.\"}");
+            return ResponseEntity.ok("Complaint deleted successfully.");
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to delete complaint.");
     }
 
-    // ✅ NEW: Update resolution notes
-    @PutMapping("/{id}/notes")
-    public ResponseEntity<?> updateNotes(@PathVariable int id, @RequestBody Map<String, String> body) {
-        String notes = body.get("notes");
-        if (complaintService.updateNotes(id, notes)) {
-            return ResponseEntity.ok("{\"message\":\"Notes updated.\"}");
-        }
-        return ResponseEntity.status(500).body("{\"error\":\"Update failed.\"}");
-    }
-
-    // ✅ NEW: Filter complaints
     @GetMapping("/filter")
-    public ResponseEntity<?> filterComplaints(
+    public ResponseEntity<List<ComplaintDTO>> filterComplaints(
             @RequestParam(required = false) String department,
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String priority,
             @RequestParam(required = false) String sortBy) {
-
         List<ComplaintDTO> complaints = complaintService.filterComplaints(department, status, priority, sortBy);
         return ResponseEntity.ok(complaints);
     }
