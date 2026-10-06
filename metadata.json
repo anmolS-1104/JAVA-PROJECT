@@ -1,0 +1,10 @@
+{
+  "name": "Intelligent Complaint Management System",
+  "description": "Full-stack intelligent complaint routing and resolution portal with AI categorization, priority assignment, customer tracking, agent triage dashboards, document attachments, voice notes, and interactive analytics.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
