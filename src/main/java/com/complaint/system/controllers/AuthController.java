@@ -1,6 +1,5 @@
 package com.complaint.system.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,7 @@ import java.util.*;
 @CrossOrigin(origins = "*")
 public class AuthController {
 
-    // Pre-provisioned ITIL functional service desk roster
+    // Functional ITIL Support Desk Agent Roster
     private static final Map<String, String> AGENT_ROSTER = new HashMap<>();
     static {
         AGENT_ROSTER.put("finance@agent.company.com", "#AGT-FIN-01");
@@ -30,16 +29,16 @@ public class AuthController {
             "company.com"
     ));
 
-    // Helper method to create response maps without Map.of()
+    // Standard helper to construct response bodies without Map.of() syntax dependency
     private Map<String, Object> createResponse(String status, String message) {
-        Map<String, Object> resp = new HashMap<>();
-        resp.put("status", status);
-        resp.put("message", message);
-        return resp;
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", status);
+        response.put("message", message);
+        return response;
     }
 
     /**
-     * Authenticates customer accounts and internal service desk agents.
+     * Authenticates existing corporate customers and support desk agents.
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
@@ -53,7 +52,7 @@ public class AuthController {
 
         email = email.trim().toLowerCase();
 
-        // 1. Service Desk Agent Login
+        // 1. Support Desk Agent Authentication
         if (AGENT_ROSTER.containsKey(email)) {
             Map<String, Object> agentData = new HashMap<>();
             agentData.put("status", "SUCCESS");
@@ -64,7 +63,7 @@ public class AuthController {
             return ResponseEntity.ok(agentData);
         }
 
-        // 2. Validate Domain for Customer Login
+        // 2. Validate Closed Enterprise Domain for Customers
         int atIndex = email.indexOf('@');
         if (atIndex == -1 || atIndex == email.length() - 1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -77,6 +76,7 @@ public class AuthController {
                     .body(createResponse("FORBIDDEN", "Access Denied: Domain @" + domain + " is unauthorized."));
         }
 
+        // 3. Customer Authentication Confirmation
         Map<String, Object> customerData = new HashMap<>();
         customerData.put("status", "SUCCESS");
         customerData.put("role", "CUSTOMER");
@@ -95,6 +95,7 @@ public class AuthController {
         String phone = regRequest.get("phone");
         String password = regRequest.get("password");
 
+        // Mandatory field validation
         if (fullName == null || email == null || phone == null || password == null ||
                 fullName.trim().isEmpty() || email.trim().isEmpty() || phone.trim().isEmpty() || password.trim().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -104,11 +105,13 @@ public class AuthController {
         email = email.trim().toLowerCase();
         phone = phone.trim();
 
+        // Validate 10-digit mobile number format
         if (!phone.matches("^\\d{10}$")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(createResponse("ERROR", "Phone number must be exactly 10 numeric digits."));
         }
 
+        // Verify Corporate Email Domain Whitelist
         int atIndex = email.indexOf('@');
         if (atIndex == -1 || atIndex == email.length() - 1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -121,11 +124,13 @@ public class AuthController {
                     .body(createResponse("FORBIDDEN", "Access Denied: Domain @" + domain + " is not authorized."));
         }
 
+        // Prevent registration collision with ITIL service desks
         if (AGENT_ROSTER.containsKey(email)) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(createResponse("CONFLICT", "This address is reserved for an ITIL internal service desk."));
         }
 
+        // Return registration success response strictly restricted to CUSTOMER role
         Map<String, Object> response = new HashMap<>();
         response.put("status", "SUCCESS");
         response.put("role", "CUSTOMER");
