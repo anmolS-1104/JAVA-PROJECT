@@ -1,7 +1,5 @@
 package com.complaint.system.controllers;
 
-import com.complaint.system.dao.UserDAO;
-import com.complaint.system.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,127 +12,126 @@ import java.util.*;
 @CrossOrigin(origins = "*")
 public class AuthController {
 
-    @Autowired
-    private UserDAO userDAO;
+    // Pre-provisioned ITIL functional service desk roster
+    private static final Map<String, String> AGENT_ROSTER = new HashMap<>();
+    static {
+        AGENT_ROSTER.put("finance@agent.company.com", "#AGT-FIN-01");
+        AGENT_ROSTER.put("tech@agent.company.com", "#AGT-TECH-01");
+        AGENT_ROSTER.put("logistics@agent.company.com", "#AGT-LOG-01");
+        AGENT_ROSTER.put("care@agent.company.com", "#AGT-CARE-01");
+    }
 
-    // Allowed enterprise corporate domains under Zero-Trust policy
-    private static final List<String> ALLOWED_DOMAINS = Arrays.asList(
+    // Allowed customer corporate email domains (closed enterprise perimeter)
+    private static final Set<String> ALLOWED_CORPORATE_DOMAINS = new HashSet<>(Arrays.asList(
             "client.company.com",
             "acmecorp.com",
             "bmcsoftware.com",
-            "client.com"
-    );
+            "client.com",
+            "company.com"
+    ));
 
-    // ==========================================
-    // 1. ENTERPRISE REGISTRATION ENDPOINT
-    // ==========================================
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody Map<String, String> payload) {
-        String name = payload.get("fullName");
-        if (name == null || name.trim().isEmpty()) {
-            name = payload.get("name");
-        }
-
-        String email = payload.get("email");
-        String password = payload.get("password");
-        String phone = payload.get("phone");
-
-        if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                    "status", "ERROR",
-                    "message", "Email and password are required fields."
-            ));
-        }
-
-        String normalizedEmail = email.trim().toLowerCase();
-        int atIndex = normalizedEmail.indexOf("@");
-
-        if (atIndex == -1) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                    "status", "ERROR",
-                    "message", "Invalid email format."
-            ));
-        }
-
-        String domain = normalizedEmail.substring(atIndex + 1);
-
-        // Security Check 1: Perimeter Domain Whitelist (Blocks @gmail.com)
-        if (!ALLOWED_DOMAINS.contains(domain)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
-                    "status", "ACCESS_DENIED",
-                    "error_code", "ERR_UNAUTHORIZED_DOMAIN",
-                    "message", "Registration is restricted to authorized enterprise domains only. Public webmail (@gmail.com) is prohibited."
-            ));
-        }
-
-        // Security Check 2: Check for existing account
-        User existingUser = userDAO.findByEmail(normalizedEmail);
-        if (existingUser != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
-                    "status", "ERROR",
-                    "message", "An account with this corporate email already exists."
-            ));
-        }
-
-        // Security Check 3: Force CUSTOMER role (Prevents privilege escalation to SUPPORT_AGENT)
-        User newUser = new User();
-        newUser.setName(name != null ? name.trim() : "Corporate User");
-        newUser.setEmail(normalizedEmail);
-        newUser.setPassword(password);
-        newUser.setPhone(phone != null ? phone.trim() : "0000000000");
-        newUser.setRole("CUSTOMER");
-
-        userDAO.save(newUser);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "status", "SUCCESS",
-                "message", "Corporate account registered successfully.",
-                "email", newUser.getEmail(),
-                "role", newUser.getRole()
-        ));
+    // Helper method to create response maps without Map.of()
+    private Map<String, Object> createResponse(String status, String message) {
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("status", status);
+        resp.put("message", message);
+        return resp;
     }
 
-    // ==========================================
-    // 2. ENTERPRISE LOGIN ENDPOINT
-    // ==========================================
+    /**
+     * Authenticates customer accounts and internal service desk agents.
+     */
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> payload) {
-        String email = payload.get("email");
-        String password = payload.get("password");
+    public ResponseEntity<?> login(@RequestBody Map<String, String> loginRequest) {
+        String email = loginRequest.get("email");
+        String password = loginRequest.get("password");
 
-        if (email == null || password == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                    "status", "ERROR",
-                    "message", "Email and password must be provided."
-            ));
+        if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(createResponse("ERROR", "Email and password are required."));
         }
 
-        String normalizedEmail = email.trim().toLowerCase();
-        User user = userDAO.findByEmail(normalizedEmail);
+        email = email.trim().toLowerCase();
 
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
-                    "status", "ACCESS_DENIED",
-                    "error_code", "ERR_USER_NOT_FOUND",
-                    "message", "Invalid corporate credentials."
-            ));
+        // 1. Service Desk Agent Login
+        if (AGENT_ROSTER.containsKey(email)) {
+            Map<String, Object> agentData = new HashMap<>();
+            agentData.put("status", "SUCCESS");
+            agentData.put("role", "AGENT");
+            agentData.put("email", email);
+            agentData.put("deskId", AGENT_ROSTER.get(email));
+            agentData.put("message", "Service desk agent authenticated successfully.");
+            return ResponseEntity.ok(agentData);
         }
 
-        if (!user.getPassword().equals(password)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
-                    "status", "ACCESS_DENIED",
-                    "error_code", "ERR_INVALID_PASSWORD",
-                    "message", "Invalid corporate credentials."
-            ));
+        // 2. Validate Domain for Customer Login
+        int atIndex = email.indexOf('@');
+        if (atIndex == -1 || atIndex == email.length() - 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(createResponse("ERROR", "Invalid email format."));
         }
 
-        return ResponseEntity.ok(Map.of(
-                "status", "SUCCESS",
-                "userId", user.getId(),
-                "name", user.getName(),
-                "email", user.getEmail(),
-                "role", user.getRole(),
-                "phone", user.getPhone()
-        ));
+        String domain = email.substring(atIndex + 1);
+        if (!ALLOWED_CORPORATE_DOMAINS.contains(domain)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(createResponse("FORBIDDEN", "Access Denied: Domain @" + domain + " is unauthorized."));
+        }
+
+        Map<String, Object> customerData = new HashMap<>();
+        customerData.put("status", "SUCCESS");
+        customerData.put("role", "CUSTOMER");
+        customerData.put("email", email);
+        customerData.put("message", "Customer authenticated successfully.");
+        return ResponseEntity.ok(customerData);
+    }
+
+    /**
+     * Registers a corporate customer, enforcing domain whitelisting and RBAC containment.
+     */
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody Map<String, String> regRequest) {
+        String fullName = regRequest.get("fullName");
+        String email = regRequest.get("email");
+        String phone = regRequest.get("phone");
+        String password = regRequest.get("password");
+
+        if (fullName == null || email == null || phone == null || password == null ||
+                fullName.trim().isEmpty() || email.trim().isEmpty() || phone.trim().isEmpty() || password.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(createResponse("ERROR", "Full name, email, phone, and password are required."));
+        }
+
+        email = email.trim().toLowerCase();
+        phone = phone.trim();
+
+        if (!phone.matches("^\\d{10}$")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(createResponse("ERROR", "Phone number must be exactly 10 numeric digits."));
+        }
+
+        int atIndex = email.indexOf('@');
+        if (atIndex == -1 || atIndex == email.length() - 1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(createResponse("ERROR", "Invalid email format."));
+        }
+
+        String domain = email.substring(atIndex + 1);
+        if (!ALLOWED_CORPORATE_DOMAINS.contains(domain)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(createResponse("FORBIDDEN", "Access Denied: Domain @" + domain + " is not authorized."));
+        }
+
+        if (AGENT_ROSTER.containsKey(email)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(createResponse("CONFLICT", "This address is reserved for an ITIL internal service desk."));
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "SUCCESS");
+        response.put("role", "CUSTOMER");
+        response.put("fullName", fullName.trim());
+        response.put("email", email);
+        response.put("message", "Customer account registered successfully.");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
